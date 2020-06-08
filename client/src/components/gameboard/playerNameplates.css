@@ -1,0 +1,32 @@
+#nameplate1.nameplate {
+	/* border: 1px none black; */
+	border-radius: 5px;
+	width: 50%;
+	height: 75px;
+	background-color: #be2a2a;
+	display: inline-block;
+}
+
+#nameplate2.nameplate {
+	/* border: 3px none black; */
+	border-radius: 5px;
+	width: 50%;
+	height: 75px;
+	background-color: #fde252;
+	display: inline-block;
+}
+
+#nameplate1 > div {
+	margin: 5px 10px;
+	font-size: 16px;
+	font-weight: 500;
+}
+
+#nameplate2 > div {
+	margin: 5px 10px;
+	font-size: 16px;
+	font-weight: 500;
+}
+.currentPlayer {
+	border: 2px solid black;
+}
