@@ -75,11 +75,8 @@ io.on('connection', (socket) => {
 
 	socket.on('playChip', ({ value, player, i, j, newState }) => {
 		const user = getUser(socket.id);
-		// const users = getUsersInRoom(user.room);
-		// var currentPlayerServer = users[0];
 		var currentPlayerServer = user.name;
 		var nextCurrentPlayerServer = getNextPlayer(value);
-		// if (player === currentPlayerServer.name) {
 		if (player === currentPlayerServer) {
 			const playedChipObject = {
 				value,
@@ -88,21 +85,13 @@ io.on('connection', (socket) => {
 				j,
 				newState,
 				nextPlayer: nextCurrentPlayerServer,
-				// newUsers: rotateUsersInRoom(user.room),
 			};
 			io.to(user.room).emit('sentChip', playedChipObject);
 		}
 	});
 
-	// socket.on('winner', (winner) => {
-	// 	const user = getUser(socket.id);
-	// 	console.log('winner: ', winner);
-	// 	io.to(user.room).emit('won', winner);
-	// });
-
 	socket.on('disconnect', () => {
 		const user = removeUser(socket.id);
-		// console.log(`${user} has left the chat`);
 		if (user) {
 			io.to(user.room).emit('message', {
 				user: 'admin',

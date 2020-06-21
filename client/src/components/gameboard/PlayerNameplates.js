@@ -15,6 +15,7 @@ const PlayerNameplates = (props) => {
 	const [currentPlayerBorderTwo, setCurrentPlayerBorderTwo] = useState('');
 
 	useEffect(() => {
+		if (props.users[0]) setPlayerOne(props.users[0].name);
 		if (props.users[0] && props.users[1]) {
 			setPlayerOne(props.users[0].name);
 			setPlayerTwo(props.users[1].name);
@@ -27,10 +28,12 @@ const PlayerNameplates = (props) => {
 			);
 		}
 	}, [
+		playerOne,
+		playerTwo,
 		currentPlayerName,
-		props.currentPlayerName,
 		currentPlayerBorderOne,
 		currentPlayerBorderTwo,
+		props.currentPlayerName,
 		props.users,
 	]);
 

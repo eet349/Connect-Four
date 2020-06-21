@@ -2,18 +2,69 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import RoomList from '../RoomList/RoomList';
+import Modal from '../Modal';
 import './JoinRoom.css';
+import { setCurrentPlayerName } from '../../actions';
+import history from '../../history';
 
-const JoinRoom = ({ location }) => {
+const JoinRoom = (props) => {
 	const [game, setGame] = useState('');
 	const [room, setRoom] = useState('');
 	const [name, setName] = useState('');
+	const [createRoom, setCreateRoom] = useState(false);
 
 	useEffect(() => {
-		const { game } = queryString.parse(location.search);
-		console.log('location: ', location);
+		const { game } = queryString.parse(props.location.search);
+		console.log('location: ', props.location);
 		setGame(game);
-	}, [location.search]);
+	}, [props.location.search]);
+
+	const renderModalActions = () => {
+		return (
+			<React.Fragment>
+				<button>
+					<Link to={`${game}/name=${name}&room=${room}`}>Create Room</Link>
+				</button>
+				<button>
+					<Link to={`/join?game=${game}`}>Cancel</Link>
+				</button>
+			</React.Fragment>
+		);
+	};
+	const renderModalContent = () => {
+		return (
+			<React.Fragment>
+				<input
+					placeholder='Enter name'
+					type='text'
+					className='form-input'
+					onChange={(event) => setName(event.target.value)}
+					value={name}
+				/>
+				<input
+					placeholder='Enter room name'
+					type='text'
+					className='form-input'
+					onChange={(event) => setRoom(event.target.value)}
+				/>
+			</React.Fragment>
+		);
+	};
+
+	const renderCreateRoomInput = () => {
+		if (createRoom) {
+			return (
+				<React.Fragment>
+					<Modal
+						title='Create Room'
+						content={renderModalContent()}
+						actions={renderModalActions()}
+						onDismiss={() => history.push(`/join?game=${game}`)}
+					/>
+				</React.Fragment>
+			);
+		}
+	};
 
 	const renderContent = () => {
 		return (
@@ -30,6 +81,7 @@ const JoinRoom = ({ location }) => {
 							className='form-input'
 							onChange={(event) => setName(event.target.value)}
 						/>
+						{renderCreateRoomInput()}
 					</form>
 				</div>
 				<Link
@@ -46,13 +98,18 @@ const JoinRoom = ({ location }) => {
 				<Link
 					onClick={(event) => (!name || !room ? event.preventDefault() : null)}
 					to={{
-						pathname: `/${room}/${name}`,
+						pathname: `/${game}/name=${name}&room=${room}`,
 						state: {
 							fromJoinRoom: true,
 						},
 					}}
 				>
-					<button className='ui button primary'>Create Room</button>
+					<button
+						className='ui button primary'
+						onClick={() => setCreateRoom(true)}
+					>
+						Create Room
+					</button>
 				</Link>
 			</div>
 		);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import './gameboard.css';
 import WinnerModal from '../WinnerModal';
+import queryString from 'query-string';
 import history from '../../history';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,15 +20,11 @@ import {
 	setCurrentPlayerName,
 } from '../../actions';
 
-import io from 'socket.io-client';
-
-let socket;
-
-const DEVENDPOINT = 'localhost:5000';
 const GameBoardHooks = (props) => {
 	const [value, setValue] = useState(null);
 	const [i, setI] = useState(null);
 	const [j, setJ] = useState(null);
+	const dispatch = useDispatch();
 	const boardState = useSelector((state) => state.connectFour.boardState);
 	const currentPlayerName = useSelector(
 		(state) => state.connectFour.currentPlayerName
@@ -37,20 +34,16 @@ const GameBoardHooks = (props) => {
 	const userName = useSelector((state) => state.socket.userName);
 	const lastPlayedArr = useSelector((state) => state.connectFour.lastPlayed);
 	const firstPlayerName = useSelector((state) => state.socket.firstPlayer);
-	// const currentPlayer = useSelector((state) => state.connectFour.currentPlayer);
-	// const userId = useSelector(state.auth.userId);
-	// const users = useSelector(state.socket.users);
-	// const room = useSelector(state.socket.userRoom);
-	// const realCurrentPlayer = useSelector(state.socket.currentPlayer);
-	const dispatch = useDispatch();
+	// const socketRoom = useSelector((state) => state.socket.userRoom);
 
 	useEffect(() => {
-		// socket = io(DEVENDPOINT);
-		// console.log('name: ', props);
-		dispatch(setUsername(props.match.params.name.trim().toLowerCase()));
+		const { name, room } = queryString.parse(props.match.params.name);
+
+		dispatch(setUsername(name.trim().toLowerCase()));
+		dispatch(setRoom(room));
 		props.socket.emit(
 			'join',
-			{ name: props.match.params.name, room: 'connect-four' },
+			{ name: name.trim().toLowerCase(), room },
 			(error) => {
 				if (error) {
 					alert(error);
@@ -79,12 +72,9 @@ const GameBoardHooks = (props) => {
 
 	useEffect(() => {
 		props.socket.on('sentChip', (served) => {
-			// setChips((chips) => [...chips, served]);
 			dispatch(setCurrentPlayerName(served.nextPlayer.name));
 			dispatch(setLastPlayed([served.i, served.j]));
-			// console.log('newstate: ', served.newState);
 			dispatch(updateBoardstate(served.newState));
-			// winCheck(served.value, served.i, served.j);
 			setValue(served.value);
 			setI(served.i);
 			setJ(served.j);
@@ -93,7 +83,6 @@ const GameBoardHooks = (props) => {
 			props.socket.emit('disconnect');
 			// props.socket.off();
 		};
-		// winCheck(value, i, j);
 	}, [boardState]);
 
 	useEffect(() => {
@@ -161,11 +150,9 @@ const GameBoardHooks = (props) => {
 		// End game and stop from further moves and announce winner
 		// const winnerText = winner === 1 ? 'One' : 'Two';
 		// console.log('Winner is Player ', winnerText);
-		// console.log('boardState in endGame: ', boardState);
 		dispatch(setWinningPlayer(winner));
 		dispatch(toggleCurrentPlayer(-1));
 		dispatch(toggleCanPlay(false));
-		// socket.emit('winner', winner);
 	};
 
 	const getActualJIndex = (arr) => {
@@ -175,7 +162,7 @@ const GameBoardHooks = (props) => {
 	const playChip = (value, i, j, newState) => {
 		props.socket.emit('playChip', {
 			value,
-			player: props.match.params.name.trim().toLowerCase(),
+			player: userName,
 			i: i,
 			j: j,
 			newState,
@@ -188,8 +175,7 @@ const GameBoardHooks = (props) => {
 		var actualJIndex = getActualJIndex(boardState[i]);
 		var playedI;
 		var playedJ;
-		const value =
-			firstPlayerName === props.match.params.name.trim().toLowerCase() ? 1 : -1;
+		const value = firstPlayerName === userName ? 1 : -1;
 		if (canPlay) {
 			const newColumn = boardState[i].map((elm, ind, array) => {
 				if (elm === 1) {
@@ -294,16 +280,9 @@ const GameBoardHooks = (props) => {
 	return (
 		<div id='board' className='ui grid gameBoard'>
 			{renderContent()}
-			<div>
-				{/* <button className='ui button primary' onClick={this.resetBoard}>
-						Reset Game
-					</button> */}
-				{/* <Chat /> */}
-			</div>
 		</div>
 	);
 };
 
-// name: ownProps.match.params.name
 export default withRouter(GameBoardHooks);
 // will be incharge of rendering the gameboard and the game logic
