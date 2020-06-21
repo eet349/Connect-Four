@@ -1,19 +1,36 @@
 import React from 'react';
-import GameBoard from './GameBoard';
+// import GameBoard from './GameBoard';
+// import GameBoardFXN from './GameBoardFXN';
+import GameBoardHooks from './GameBoardHooks';
+import Chat from '../Chat/Chat';
 import PlayerNameplates from './PlayerNameplates';
+import './ConnectFour.css';
+import io from 'socket.io-client';
+const DEVENDPOINT = 'localhost:5000';
 
 const ConnectFour = () => {
-  let styles = {
-    width: '100%'
-  }
-  return (
-    <div>
-      <div className="ui container center" styles={styles}>
-      <PlayerNameplates />
-      <GameBoard />
-      </div>
-    </div>
-  );
-}
+	const socket = io(DEVENDPOINT);
+	let styles = {
+		width: '100%',
+	};
+	return (
+		<div>
+			{/* <div className='ui container center' styles={styles}> */}
+			<div className='ui center' styles={styles}>
+				<PlayerNameplates />
+				<div className='flexContainer'>
+					<div>
+						{/* <GameBoard /> */}
+						{/* <GameBoardFXN /> */}
+						<GameBoardHooks socket={socket} />
+					</div>
+					<div>
+						<Chat socket={socket} />
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
 
 export default ConnectFour;

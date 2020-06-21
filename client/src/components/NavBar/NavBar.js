@@ -1,5 +1,5 @@
 import React from 'react';
-import GoogleAuth from '../GoogleAuth';
+// import GoogleAuth from '../GoogleAuth';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -24,6 +24,18 @@ const NavBar = () => {
 				<i className='braille icon' style={{ fontSize: '25px' }}></i>
 			</Link>
 			<div className='right menu'>
+				<Link to='/signin' className='item'>
+					<div
+						style={{
+							color: '#2472E7',
+							paddingTop: '20px',
+							marginTop: '70px',
+							marginBottom: '0',
+						}}
+					>
+						Sign-in
+					</div>
+				</Link>
 				<Link to='/profile' className='item'>
 					<div
 						style={{
@@ -47,13 +59,13 @@ const NavBar = () => {
 						}}
 					>
 						<i className='address card icon'></i>
-						Sign-up
+						Register
 					</div>
 				</Link>
 				<div style={{ margin: '3px 10px' }}>
-					<Link to='/'>
+					{/* <Link to='/'>
 						<GoogleAuth />
-					</Link>
+					</Link> */}
 				</div>
 			</div>
 		</div>

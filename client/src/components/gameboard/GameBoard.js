@@ -53,10 +53,7 @@ class GameBoard extends React.Component {
 	}
 	componentDidUpdate() {
 		socket.on('sentChip', (served) => {
-			// this.props.setUsers(served.newUsers);
-			// console.log('nextPlayer: ', served.nextPlayer);
 			this.props.setCurrentPlayerName(served.nextPlayer.name);
-			// console.log('currentPlayer: ', this.props.currentPlayer);
 			this.props.setLastPlayed([served.i, served.j]);
 			this.winCheck(served.value, served.i, served.j);
 			this.props.updateBoardstate(served.newState);
@@ -201,7 +198,8 @@ class GameBoard extends React.Component {
 				return (
 					<div
 						id='chipBox'
-						className={`ConnectFourBox ${lastPlayed}`}
+						// className={`ConnectFourBox ${lastPlayed}`}
+						className={`ConnectFourBox`}
 						key={`${(i, j)}`}
 						onClick={() =>
 							// this.props.users[0].name === this.props.userName
@@ -215,7 +213,7 @@ class GameBoard extends React.Component {
 								  )
 						}
 					>
-						<div className={`${chipColor} Chip`}></div>
+						<div className={`${chipColor} Chip ${lastPlayed}`}></div>
 					</div>
 				);
 			});

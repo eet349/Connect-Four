@@ -42,18 +42,22 @@ const PlayerNameplates = (props) => {
 		>
 			<div className='column'>
 				<div className={`nameplate ${currentPlayerBorderOne}`} id='nameplate1'>
-					<div>{props.users[0] ? playerOne : null}</div>
+					<div>
+						<h2>{props.users[0] ? playerOne : null}</h2>
+					</div>
 				</div>
 			</div>
-			<h2
+			<h1
 				className='column'
 				style={{ textAlign: 'center', fontSize: '40px', fontWeight: '800' }}
 			>
 				CONNECT FOUR
-			</h2>
+			</h1>
 			<div className='column' style={{ textAlign: 'right' }}>
 				<div className={`nameplate ${currentPlayerBorderTwo}`} id='nameplate2'>
-					<div>{props.users[1] ? playerTwo : 'Player Two'}</div>
+					<div>
+						<h2>{props.users[1] ? playerTwo : 'Player Two'}</h2>
+					</div>
 				</div>
 			</div>
 		</div>

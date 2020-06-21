@@ -6,20 +6,22 @@ import {
 	TOGGLE_CANPLAY,
 	RESET_BOARDSTATE,
 	SET_WINNINGPLAYER,
-	// JOIN_ROOM,
-	// LEAVE_ROOM,
 	SET_ROOM,
 	SET_USERS,
-	SET_FIRSTPLAYER,
+	SET_FIRSTPLAYER_NAME,
 	SET_LASTPLAYED,
 	SET_USERNAME,
 	SET_CURRENT_PLAYER,
 	SET_CURRENT_PLAYER_NAME,
-	// SET_I_INDEX,
-	// SET_J_INDEX,
+	GET_PLAYER_PROFILE,
+	CREATE_PLAYER_PROFILE,
+	UPDATE_PLAYER_PROFILE,
+	PROFILES_LOADING,
 } from './types';
 import streams from '../apis/api';
 import history from '../history';
+import axios from 'axios';
+import base from '../apis/api';
 
 export const signIn = (userId) => {
 	return {
@@ -75,6 +77,7 @@ export const resetBoardState = () => {
 		],
 	};
 };
+// Actions Related to Sockets
 
 export const setRoom = (room) => {
 	return {
@@ -94,23 +97,11 @@ export const setUsers = (users) => {
 		payload: users,
 	};
 };
-// export const setI = (i) => {
-// 	return {
-// 		type: SET_I_INDEX,
-// 		payload: i,
-// 	};
-// };
-// export const setJ = (j) => {
-// 	return {
-// 		type: SET_J_INDEX,
-// 		payload: j,
-// 	};
-// };
 
-export const setFirstplayer = (firstPlayer) => {
+export const setFirstplayerName = (firstPlayerName) => {
 	return {
-		type: SET_FIRSTPLAYER,
-		payload: firstPlayer,
+		type: SET_FIRSTPLAYER_NAME,
+		payload: firstPlayerName,
 	};
 };
 export const setLastPlayed = (newLastPlayed) => {
@@ -132,15 +123,39 @@ export const setCurrentPlayerName = (currentPlayerName) => {
 	};
 };
 
-// export const setServerCanPlay = (canPlay) => {
-// 	return {
-// 		type: SET_SERVER_CANPLAY,
-// 		payload: canPlay,
-// 	};
-// };
+// Actions concerning MongoDB
 
-// Actions Related to Sockets
-
+export const setProfilesLoading = () => {
+	return {
+		type: PROFILES_LOADING,
+	};
+};
+export const getPlayerProfile = (id) => (dispatch) => {
+	dispatch(setProfilesLoading());
+	base.get(`/api/profiles/${id}`).then((res) =>
+		dispatch({
+			type: GET_PLAYER_PROFILE,
+			payload: res.data,
+		})
+	);
+};
+export const createPlayerProfile = (profile) => (dispatch) => {
+	base.post('/api/profiles', profile).then((res) =>
+		dispatch({
+			type: CREATE_PLAYER_PROFILE,
+			payload: res.data,
+		})
+	);
+	history.push('/');
+};
+export const updatePlayerProfile = (profile) => (dispatch) => {
+	base.put(`/api/profiles/${profile._id}`, profile).then((res) =>
+		dispatch({
+			type: UPDATE_PLAYER_PROFILE,
+			payload: res.data,
+		})
+	);
+};
 // export const createStream = (formValues) => async (dispatch, getState) => {
 //   const { userId } = getState().auth;
 //   const response = await streams.post('/streams', { ...formValues, userId });

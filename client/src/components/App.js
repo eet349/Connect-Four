@@ -21,7 +21,7 @@ const App = () => {
 	return (
 		<Router history={history}>
 			<NavBar />
-			<div className='ui container center' styles={styles}>
+			<div className='ui center' styles={styles}>
 				<Switch>
 					{/* <Route path='/' exact component={ConnectFour} />
 					<Route path='/profile' component={ProfilePage} />

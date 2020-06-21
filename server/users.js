@@ -8,15 +8,11 @@ const addUser = ({ id, name, room }) => {
 	const existingUser = users.find(
 		(user) => user.room === room && user.name === name
 	);
-	console.log('name: ', name);
-	console.log('room: ', room);
 	if (!name || !room) return { error: 'Username and room are required' };
 	if (existingUser) {
 		return { error: 'Username is taken.' };
 	}
-	// const canPlay = !users[0];
 	const user = { id, name, room };
-	// const user = { id, name, room, canPlay };
 
 	users.push(user);
 
@@ -32,12 +28,7 @@ const removeUser = (id) => {
 };
 const getUser = (id) => users.find((user) => user.id === id);
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
-// const rotateUsersInRoom = (room) => {
-// 	let temp = users[0];
-// 	users[0] = users[1];
-// 	users[1] = temp;
-// 	return users;
-// };
+
 const getNextPlayer = (value) => {
 	return value === 1 ? users[1] : users[0];
 };
@@ -48,5 +39,4 @@ module.exports = {
 	getNextPlayer,
 	getUser,
 	getUsersInRoom,
-	// rotateUsersInRoom,
 };

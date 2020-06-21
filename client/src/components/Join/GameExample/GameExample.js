@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import './GameExample.css';
 
 class GameExample extends React.Component {
 	renderGameExample() {
@@ -11,9 +12,11 @@ class GameExample extends React.Component {
 						<div>
 							<div>Top Part</div>
 							<div>{this.props.game}</div>
-							<Link to={`/${this.props.game}`} className='item'>
-								Start Playing
-							</Link>
+							<button>
+								<Link to={`/${this.props.game}`} className='item'>
+									Start Playing
+								</Link>
+							</button>
 							{/* <button>Start Playing</button> */}
 						</div>
 						<div>
@@ -25,19 +28,26 @@ class GameExample extends React.Component {
 		}
 		return (
 			<React.Fragment>
-				<div>
+				<div className='outerGameExample'>
 					<div>
-						<div>Top Part</div>
-						<div>{this.props.game}</div>
-						<Link to={`/join?room=${this.props.game}`} className='item'>
-							Join Room
-						</Link>
-						<Link to={`/create?room=${this.props.game}`} className='item'>
-							Create Room
-						</Link>
+						<div>
+							<h3>Top Part</h3>
+						</div>
+						<div>
+							<h5>{this.props.game}</h5>
+						</div>
+						<button>
+							<Link
+								to={`/join?game=${this.props.game}`}
+								className='item'
+								id='GameExample-button'
+							>
+								Play
+							</Link>
+						</button>
 					</div>
 					<div>
-						<div>Bottom Part</div>
+						<div className='GameExample-bottom'>Bottom Part</div>
 					</div>
 				</div>
 			</React.Fragment>

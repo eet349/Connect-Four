@@ -5,7 +5,7 @@ import {
 	SET_USERS,
 	SET_CURRENT_PLAYER,
 	SET_USERNAME,
-	SET_FIRSTPLAYER,
+	SET_FIRSTPLAYER_NAME,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -20,7 +20,7 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case SET_USERNAME:
 			return { ...state, userName: action.payload };
-		case SET_FIRSTPLAYER:
+		case SET_FIRSTPLAYER_NAME:
 			return { ...state, firstPlayer: action.payload };
 		// case JOIN_ROOM:
 		// 	return { ...state };

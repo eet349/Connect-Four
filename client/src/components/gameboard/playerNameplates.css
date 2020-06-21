@@ -4,7 +4,9 @@
 	width: 50%;
 	height: 75px;
 	background-color: #be2a2a;
+	color: whitesmoke;
 	display: inline-block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #nameplate2.nameplate {
@@ -13,20 +15,37 @@
 	width: 50%;
 	height: 75px;
 	background-color: #fde252;
+	color: whitesmoke;
 	display: inline-block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #nameplate1 > div {
 	margin: 5px 10px;
 	font-size: 16px;
 	font-weight: 500;
+	/* text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.7), 0 0 5px rgba(0, 0, 0, 0.7);
 }
 
 #nameplate2 > div {
 	margin: 5px 10px;
 	font-size: 16px;
 	font-weight: 500;
+	/* text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+	/* text-shadow: 0 0 3px #ff0000, 0 0 5px #0000ff; */
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.7), 0 0 5px rgba(0, 0, 0, 0.7);
 }
 .currentPlayer {
 	border: 2px solid black;
+}
+
+h1 {
+	text-shadow: 0 0 5px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.2);
+	/* font-size: px; */
+	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+	/* box-shadow: 5px 10px inset; */
+	/* box-shadow: 5px 5px blue, 10px 10px red, 15px 15px green; */
+	/* box-shadow: 0 10px 8px 20px #888888; */
+	/* box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2); */
 }

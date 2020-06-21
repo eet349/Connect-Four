@@ -1,0 +1,24 @@
+.outerGameExample {
+	background-color: #dddddd;
+	text-align: center;
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	display: block;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 10px 5px -5px #888888;
+	justify-content: space-evenly;
+	/* display: block; */
+	height: 25vh;
+	width: 200px;
+	line-height: 40px;
+}
+#GameExample-button {
+	margin: 5px;
+	display: block;
+}
+
+.GameExample-bottom {
+	display: block;
+}
