@@ -2,8 +2,10 @@ import {
 	SIGN_IN,
 	SIGN_OUT,
 	UPDATE_BOARDSTATE,
+	UPDATE_TICTAC_BOARDSTATE,
 	TOGGLE_CURRENT_PLAYER,
 	TOGGLE_CANPLAY,
+	TOGGLE_TTT_CANPLAY,
 	RESET_BOARDSTATE,
 	SET_WINNINGPLAYER,
 	SET_ROOM,
@@ -18,9 +20,9 @@ import {
 	UPDATE_PLAYER_PROFILE,
 	PROFILES_LOADING,
 } from './types';
-import streams from '../apis/api';
+// import streams from '../apis/api';
 import history from '../history';
-import axios from 'axios';
+// import axios from 'axios';
 import base from '../apis/api';
 
 export const signIn = (userId) => {
@@ -43,6 +45,12 @@ export const updateBoardstate = (newBoardstate) => {
 		payload: newBoardstate,
 	};
 };
+export const updateTicTacBoardstate = (newBoardstate) => {
+	return {
+		type: UPDATE_TICTAC_BOARDSTATE,
+		payload: newBoardstate,
+	};
+};
 
 export const toggleCurrentPlayer = (player) => {
 	const newPlayer = player * -1;
@@ -54,6 +62,12 @@ export const toggleCurrentPlayer = (player) => {
 export const toggleCanPlay = (canPlay) => {
 	return {
 		type: TOGGLE_CANPLAY,
+		payload: canPlay,
+	};
+};
+export const toggleTTTCanPlay = (canPlay) => {
+	return {
+		type: TOGGLE_TTT_CANPLAY,
 		payload: canPlay,
 	};
 };
@@ -75,6 +89,14 @@ export const resetBoardState = () => {
 			[0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0],
 		],
+	};
+};
+
+// Actions regarding TicTacToe
+export const resetTTTBoardState = () => {
+	return {
+		type: RESET_BOARDSTATE,
+		payload: [0, 0, 0, 0, 0, 0, 0, 0, 0],
 	};
 };
 // Actions Related to Sockets

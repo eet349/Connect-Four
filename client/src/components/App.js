@@ -9,10 +9,11 @@ import ProfilePage from './Profile/ProfilePage';
 import CompleteProfile from './Profile/CompleteProfile';
 
 import JoinRoom from './JoinRoom/JoinRoom';
-import CreateRoom from './CreateRoom/CreateRoom';
+// import CreateRoom from './CreateRoom/CreateRoom';
 import ConnectFour from './gameboard/ConnectFour';
 import TicTacToe from './TicTacToe/TicTacToe';
 import RockPaperScissors from './RockPaperScissors/RockPaperScissors';
+import GameRoom from './GameRoom/GameRoom';
 
 const App = () => {
 	var styles = {
@@ -32,10 +33,12 @@ const App = () => {
 					<Route path='/profile' component={ProfilePage} />
 					<Route path='/signup' component={CompleteProfile} />
 					<Route path='/join' component={JoinRoom} />
-					<Route path='/create' component={CreateRoom} />
-					<Route path='/connect-four/:name' component={ConnectFour} />
+					{/* <Route path='/create' component={CreateRoom} /> */}
+					<Route path='/connect-four/' component={ConnectFour} />
+					{/* <Route path='/connect-four/:name' component={ConnectFour} /> */}
 					<Route path='/tic-tac-toe' component={TicTacToe} />
 					<Route path='/rock-paper-scissors' component={RockPaperScissors} />
+					<Route path='/gameroom' component={GameRoom} />
 				</Switch>
 			</div>
 		</Router>

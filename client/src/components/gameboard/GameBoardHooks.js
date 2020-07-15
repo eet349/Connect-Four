@@ -37,8 +37,7 @@ const GameBoardHooks = (props) => {
 	// const socketRoom = useSelector((state) => state.socket.userRoom);
 
 	useEffect(() => {
-		const { name, room } = queryString.parse(props.match.params.name);
-
+		const { name, room } = queryString.parse(props.location.search);
 		dispatch(setUsername(name.trim().toLowerCase()));
 		dispatch(setRoom(room));
 		props.socket.emit(
@@ -57,9 +56,7 @@ const GameBoardHooks = (props) => {
 			dispatch(setCurrentPlayer(userData.currentPlayer));
 			dispatch(setFirstplayerName(userData.users[0].name));
 
-			if (
-				userData.users[0].name !== props.match.params.name.trim().toLowerCase()
-			) {
+			if (userData.users[0].name !== name.trim().toLowerCase()) {
 				dispatch(toggleCurrentPlayer(1));
 			}
 			dispatch(setCurrentPlayerName(userData.users[0].name));
@@ -72,6 +69,7 @@ const GameBoardHooks = (props) => {
 
 	useEffect(() => {
 		props.socket.on('sentChip', (served) => {
+			console.log('served.nextPlayer.name: ', served);
 			dispatch(setCurrentPlayerName(served.nextPlayer.name));
 			dispatch(setLastPlayed([served.i, served.j]));
 			dispatch(updateBoardstate(served.newState));
@@ -148,8 +146,6 @@ const GameBoardHooks = (props) => {
 
 	const endGame = (winner) => {
 		// End game and stop from further moves and announce winner
-		// const winnerText = winner === 1 ? 'One' : 'Two';
-		// console.log('Winner is Player ', winnerText);
 		dispatch(setWinningPlayer(winner));
 		dispatch(toggleCurrentPlayer(-1));
 		dispatch(toggleCanPlay(false));
@@ -267,7 +263,6 @@ const GameBoardHooks = (props) => {
 					<WinnerModal
 						title='Winner!'
 						actions={renderActions()}
-						//
 						onDismiss={() => history.push('/')}
 						winner={winnerText}
 					/>

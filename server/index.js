@@ -57,6 +57,10 @@ io.on('connection', (socket) => {
 			text: `${user.name}, welcome to ${user.room}.`,
 		});
 
+		socket.broadcast
+			.to(user.room)
+			.emit('message', { user: 'admin', text: `${user.name} has joined.` });
+
 		io.to(user.room).emit('roomData', {
 			room: user.room,
 			users: getUsersInRoom(user.room),
@@ -76,7 +80,7 @@ io.on('connection', (socket) => {
 	socket.on('playChip', ({ value, player, i, j, newState }) => {
 		const user = getUser(socket.id);
 		var currentPlayerServer = user.name;
-		var nextCurrentPlayerServer = getNextPlayer(value);
+		var nextCurrentPlayerServer = getNextPlayer(value, user.room);
 		if (player === currentPlayerServer) {
 			const playedChipObject = {
 				value,
@@ -87,6 +91,24 @@ io.on('connection', (socket) => {
 				nextPlayer: nextCurrentPlayerServer,
 			};
 			io.to(user.room).emit('sentChip', playedChipObject);
+		}
+	});
+
+	socket.on('playTic', ({ value, player, index, newState }) => {
+		// console.log('getUser: ', getUser(socket.id), socket.id);
+		// console.log('user: ', user);
+		const user = getUser(socket.id);
+		var currentPlayerServer = user.name;
+		var nextCurrentPlayerServer = getNextPlayer(value, user.room);
+		if (player === currentPlayerServer) {
+			const playedTicObject = {
+				value,
+				player,
+				index,
+				newState,
+				nextPlayer: nextCurrentPlayerServer,
+			};
+			io.to(user.room).emit('sentTic', playedTicObject);
 		}
 	});
 

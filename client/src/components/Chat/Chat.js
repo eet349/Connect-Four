@@ -18,29 +18,13 @@ const Chat = (props) => {
 	const [message, setMessage] = useState('');
 	const [messages, setMessages] = useState([]);
 	const [users, setUsers] = useState([]);
-	// const SOCKETENDPOINT = 'https://heychatapp.herokuapp.com/'; // used to be 'localhost:5000' in dev;
+
 	const DEVENDPOINT = 'localhost:5000';
 	const userName = useSelector((state) => state.socket.userName);
 	const userRoom = useSelector((state) => state.socket.userRoom);
 	useEffect(() => {
-		// const { name, room } = queryString.parse(location.search);
-		// socket = io(SOCKETENDPOINT);
-		// socket = io(DEVENDPOINT);
 		setName(userName);
 		setRoom(userRoom);
-
-		// socket.emit('join', { name: name, room: room }, (error) => {
-		// 	if (error) {
-		// 		alert(error);
-		// 	}
-		// });
-
-		// return () => {
-		// 	socket.emit('disconnect');
-
-		// 	socket.off();
-		// };
-		// }, [SOCKETENDPOINT, location.search]);
 	}, [DEVENDPOINT]);
 
 	useEffect(() => {

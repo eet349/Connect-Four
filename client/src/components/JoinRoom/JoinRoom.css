@@ -1,8 +1,10 @@
 .form-input {
-	width: 30%;
+	width: 35%;
 	padding: 12px 20px;
 	margin: 8px 0;
-	display: inline-block;
+	/* display: inline-block; */
+	display: flex;
+	justify-content: center;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;

@@ -5,9 +5,6 @@ import './Join.css';
 import GameExample from './GameExample/GameExample';
 
 const Join = () => {
-	// const [name, setName] = useState('');
-	// const [room, setRoom] = useState('');
-
 	return (
 		<div className='header'>
 			<h1>Join Page</h1>

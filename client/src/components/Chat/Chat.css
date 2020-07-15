@@ -34,9 +34,11 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 74.65vh;
+	/* height: 74.65vh; */
+	height: 600px;
 	background-color: #1a1a1d;
-	margin-right: 75px;
+	/* margin-right: 75px; */
+	margin-left: 40px;
 	/* border-radius: 8px; */
 }
 

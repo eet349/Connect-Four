@@ -4,6 +4,7 @@ import authReducer from './authReducer';
 import connectFourReducer from './connectFourReducer';
 import socketReducer from './socketReducer';
 import profilesReducer from './profilesReducer';
+import TicTacToeReducer from './TicTacToeReducer';
 
 export default combineReducers({
 	auth: authReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
 	connectFour: connectFourReducer,
 	socket: socketReducer,
 	profiles: profilesReducer,
+	tictactoe: TicTacToeReducer,
 });

@@ -8,17 +8,36 @@
 	padding: 20px;
 	border-radius: 5px;
 	box-shadow: 0 10px 5px -5px #888888;
-	justify-content: space-evenly;
-	/* display: block; */
 	height: 25vh;
 	width: 200px;
 	line-height: 40px;
 }
-#GameExample-button {
-	margin: 5px;
-	display: block;
+/* .outerGameExample :hover {
+	height: 30vh;
+	width: 250px;
+} */
+
+.game-button {
+	display: flex;
+	justify-content: center;
+	margin: 20px auto;
+	/* display: block; */
 }
 
 .GameExample-bottom {
 	display: block;
+}
+.game-button {
+	color: whitesmoke;
+	background-color: black;
+	border: none;
+	width: 40%;
+	height: 30px;
+	padding: 8px;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+#game-header {
+	text-shadow: 20px 20px 15px 5px #888888;
 }

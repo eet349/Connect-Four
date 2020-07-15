@@ -21,7 +21,7 @@ const PlayerNameplates = (props) => {
 			setPlayerTwo(props.users[1].name);
 			setCurrentPlayerName(props.currentPlayerName);
 			setCurrentPlayerBorderOne(
-				currentPlayerName === playerOne ? 'currentPlayer' : ''
+				currentPlayerName === playerOne ? 'currentPlayer' : 'Player One'
 			);
 			setCurrentPlayerBorderTwo(
 				currentPlayerName === playerTwo ? 'currentPlayer' : ''
@@ -54,7 +54,8 @@ const PlayerNameplates = (props) => {
 				className='column'
 				style={{ textAlign: 'center', fontSize: '40px', fontWeight: '800' }}
 			>
-				CONNECT FOUR
+				{props.game}
+				{/* CONNECT FOUR */}
 			</h1>
 			<div className='column' style={{ textAlign: 'right' }}>
 				<div className={`nameplate ${currentPlayerBorderTwo}`} id='nameplate2'>

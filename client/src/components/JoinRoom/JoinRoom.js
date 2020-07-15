@@ -15,17 +15,30 @@ const JoinRoom = (props) => {
 
 	useEffect(() => {
 		const { game } = queryString.parse(props.location.search);
-		console.log('location: ', props.location);
 		setGame(game);
 	}, [props.location.search]);
 
 	const renderModalActions = () => {
 		return (
 			<React.Fragment>
-				<button>
-					<Link to={`${game}/name=${name}&room=${room}`}>Create Room</Link>
+				<button
+					onClick={() => {
+						if (name && room) {
+							history.push(`gameroom/?name=${name}&room=${room}&game=${game}`);
+							// history.push(`${game}/?name=${name}&room=${room}`);
+						}
+					}}
+					className='ui button primary'
+				>
+					Create Room
 				</button>
-				<button>
+				<button
+					onClick={() => {
+						setCreateRoom(false);
+						setRoom('');
+					}}
+					className='ui button'
+				>
 					<Link to={`/join?game=${game}`}>Cancel</Link>
 				</button>
 			</React.Fragment>

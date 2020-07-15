@@ -15,7 +15,7 @@ const addUser = ({ id, name, room }) => {
 	const user = { id, name, room };
 
 	users.push(user);
-
+	console.log('users: ', users);
 	return { user };
 };
 
@@ -29,8 +29,13 @@ const removeUser = (id) => {
 const getUser = (id) => users.find((user) => user.id === id);
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-const getNextPlayer = (value) => {
-	return value === 1 ? users[1] : users[0];
+const getNextPlayer = (value, room) => {
+	const usersInRoom = users.filter((user) => user.room === room);
+	if (usersInRoom.length > 1) {
+		return value === 1 ? usersInRoom[1] : usersInRoom[0];
+	} else {
+		return { error: 'not enough users in room' };
+	}
 };
 
 module.exports = {

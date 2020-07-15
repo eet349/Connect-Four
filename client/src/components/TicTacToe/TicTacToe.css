@@ -1,0 +1,46 @@
+.T {
+	border-top: 10px solid black;
+}
+.B {
+	border-bottom: 10px solid black;
+}
+.L {
+	border-left: 10px solid black;
+}
+.R {
+	border-right: 10px solid black;
+}
+.boardContainer {
+	height: 40vh;
+	width: 450px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	margin: 200px auto;
+	/* margin-bottom: 200px; */
+}
+.box {
+	height: 150px;
+	width: 150px;
+	padding: 0;
+	margin: 0;
+	background-color: #ccc;
+}
+
+.X {
+	/* background-color: red; */
+	background-image: url('../../Recources/icons/cross.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 150px 150px;
+}
+
+.O {
+	/* background-color: yellow; */
+	background-image: url('../../Recources/icons/black-circle-transparent-background-1024x1024.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 150px 150px;
+}
