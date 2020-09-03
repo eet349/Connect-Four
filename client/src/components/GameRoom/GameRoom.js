@@ -7,6 +7,7 @@ import PlayerNameplates from '../gameboard/PlayerNameplates';
 import './GameRoom.css';
 import io from 'socket.io-client';
 import queryString from 'query-string';
+import GameNav from '../GameNav/GameNav';
 const DEVENDPOINT = 'localhost:5000';
 
 const GameRoom = (props) => {
@@ -16,6 +17,7 @@ const GameRoom = (props) => {
 	};
 	const { name, room, game } = queryString.parse(props.location.search);
 	console.log('props.location.search: ', props.location.search);
+	console.log('props: ', props);
 	const renderGame = () => {
 		if (game === 'tic-tac-toe') {
 			return (
@@ -46,6 +48,9 @@ const GameRoom = (props) => {
 					<div>
 						<Chat socket={socket} />
 					</div>
+				</div>
+				<div>
+					<GameNav name={name} room={room} game={game} />
 				</div>
 			</div>
 		</div>

@@ -75,7 +75,6 @@ const TicTacToe = (props) => {
 			props.socket.emit('disconnect');
 			props.socket.off();
 		};
-		// }, []);
 	}, [props.location.search]);
 
 	useEffect(() => {
@@ -95,11 +94,9 @@ const TicTacToe = (props) => {
 
 	useEffect(() => {
 		winCheck(value, index);
-		// checkDraw();
 	});
 
 	const winCheck = (value, index) => {
-		// console.log('wincheck: ', value, index);
 		const ticValue = value;
 		const zeroArray = [
 			[0, 1, 2],
@@ -182,7 +179,6 @@ const TicTacToe = (props) => {
 				return total + ticTacBoardState[currentVal];
 			}, 0);
 			if (total === 3 || total === -3) {
-				console.log('winner ', value);
 				endGame(value);
 			}
 		});
@@ -195,7 +191,6 @@ const TicTacToe = (props) => {
 			drawCheckArr.length === 9 &&
 			(winningPlayer === 1 || winningPlayer === -1)
 		) {
-			console.log('draw');
 			if (!winningPlayer) {
 				endGame(0);
 			}
@@ -227,7 +222,6 @@ const TicTacToe = (props) => {
 			if (ticTacBoardState[index] === 0) {
 				newState.splice(index, 1, value);
 			}
-
 			dispatch(updateBoardstate(newState));
 			setLocalBoardState(newState);
 			props.socket.emit('playTic', { value, player, index, newState });
@@ -291,10 +285,8 @@ const TicTacToe = (props) => {
 		var winnerText;
 		if (winningPlayer === 0) {
 			winnerText = 'Draw!';
-		} else if (winningPlayer === 1) {
-			winnerText = 'Winner is Player One';
-		} else if (winningPlayer === -1) {
-			winnerText = 'Winner is Player Two';
+		} else if (winningPlayer === 1 || winningPlayer === -1) {
+			winnerText = `Winner is Player ${winningPlayer === 1 ? 'One' : 'Two'}`;
 		}
 		if (!canPlay) {
 			return (

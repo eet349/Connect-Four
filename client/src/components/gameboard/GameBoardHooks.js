@@ -18,9 +18,11 @@ import {
 	setLastPlayed,
 	setCurrentPlayer,
 	setCurrentPlayerName,
+	// setRoomsList,
 } from '../../actions';
 
 const GameBoardHooks = (props) => {
+	console.log('props: ', props);
 	const [value, setValue] = useState(null);
 	const [i, setI] = useState(null);
 	const [j, setJ] = useState(null);
@@ -37,24 +39,30 @@ const GameBoardHooks = (props) => {
 	// const socketRoom = useSelector((state) => state.socket.userRoom);
 
 	useEffect(() => {
-		const { name, room } = queryString.parse(props.location.search);
+		const { name, room, game, switchGame } = queryString.parse(
+			props.location.search
+		);
 		dispatch(setUsername(name.trim().toLowerCase()));
 		dispatch(setRoom(room));
-		props.socket.emit(
-			'join',
-			{ name: name.trim().toLowerCase(), room },
-			(error) => {
-				if (error) {
-					alert(error);
+		// if(!switchGame)
+		if (!switchGame) {
+			props.socket.emit(
+				'join',
+				{ name: name.trim().toLowerCase(), room },
+				(error) => {
+					if (error) {
+						alert(error);
+					}
 				}
-			}
-		);
+			);
+		}
 		props.socket.on('roomData', (userData) => {
 			const roomOccupancy = userData.roomOccupancy;
 			dispatch(setUsers(userData.users));
 			dispatch(setRoom(userData.room));
 			dispatch(setCurrentPlayer(userData.currentPlayer));
 			dispatch(setFirstplayerName(userData.users[0].name));
+			// dispatch(setRoomsList(userData.roomsList));
 
 			if (userData.users[0].name !== name.trim().toLowerCase()) {
 				dispatch(toggleCurrentPlayer(1));

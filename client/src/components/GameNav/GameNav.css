@@ -1,0 +1,40 @@
+.gameNavHeader {
+	width: 100%;
+	padding-left: 10px;
+	padding-top: 5px;
+}
+
+#gameNav {
+	width: 100%;
+	/* background-color: grey; */
+	height: 220px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	margin-bottom: 25px;
+	padding-bottom: 15px;
+}
+
+#gameButtonCard {
+	height: 150px;
+	width: 150px;
+	background-color: silver;
+	border-radius: 5px;
+	/* align-items: stretch; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#gameNavButton {
+	text-align: center;
+	border-radius: 3px;
+	background-color: slategray;
+	width: 100px;
+	height: 50px;
+	cursor: pointer;
+}
+
+#gameNavLinks {
+	color: black;
+}

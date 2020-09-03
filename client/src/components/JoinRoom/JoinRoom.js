@@ -5,17 +5,40 @@ import RoomList from '../RoomList/RoomList';
 import Modal from '../Modal';
 import './JoinRoom.css';
 import { setCurrentPlayerName } from '../../actions';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+	createRoomList,
+	getRoomsList,
+	updateRoomData,
+	deleteRoom,
+} from '../../actions';
+
 import history from '../../history';
 
 const JoinRoom = (props) => {
+	const dispatch = useDispatch();
+
 	const [game, setGame] = useState('');
 	const [room, setRoom] = useState('');
+	const [roomId, setRoomId] = useState('');
 	const [name, setName] = useState('');
+	const [occupancy, setOccupancy] = useState('');
+
 	const [createRoom, setCreateRoom] = useState(false);
+
+	const roomsList = useSelector((state) => state.socket.roomsList);
+
+	const setRoomName = (roomName, roomId) => {
+		setRoom(roomName);
+		setRoomId(roomId);
+	};
 
 	useEffect(() => {
 		const { game } = queryString.parse(props.location.search);
 		setGame(game);
+		dispatch(getRoomsList());
+		console.log('roomsList: ', roomsList);
 	}, [props.location.search]);
 
 	const renderModalActions = () => {
@@ -24,8 +47,19 @@ const JoinRoom = (props) => {
 				<button
 					onClick={() => {
 						if (name && room) {
-							history.push(`gameroom/?name=${name}&room=${room}&game=${game}`);
-							// history.push(`${game}/?name=${name}&room=${room}`);
+							const roomsListNames = roomsList.map((roomName) => roomName.name);
+							if (roomsListNames.indexOf(room) === -1) {
+								var newRoom = { room, roomId };
+								dispatch(createRoomList(newRoom));
+								// dispatch(createRoomList(room));
+								history.push(
+									`gameroom/?name=${name}&room=${room}&game=${game}`
+								);
+							}
+						} else {
+							console.log(
+								'Room name taken. Please choose a new name of join an available room.'
+							);
 						}
 					}}
 					className='ui button primary'
@@ -85,7 +119,11 @@ const JoinRoom = (props) => {
 				<div className='ui container'>
 					<h1>{game}</h1>
 					<div>
-						<RoomList />
+						<RoomList
+							roomsList={roomsList}
+							setRoomName={setRoomName}
+							name={name}
+						/>
 					</div>
 					<form className='form'>
 						<input
@@ -100,13 +138,32 @@ const JoinRoom = (props) => {
 				<Link
 					onClick={(event) => (!name || !room ? event.preventDefault() : null)}
 					to={{
-						pathname: `/${room}/${name}`,
+						pathname: `gameroom/`,
+						search: `?name=${name}&room=${room}&game=${game}`,
 						state: {
 							fromJoinRoom: true,
 						},
 					}}
 				>
-					<button className='ui button primary'>Join Room</button>
+					<button
+						onClick={() => {
+							const roomNamesTemp = roomsList.map((room) => room.name);
+							const occ = roomNamesTemp.indexOf(room);
+							// setOccupancy(roomsList[occ].numUsers);
+							console.log('occ: ', occ);
+							console.log('numUsers +1: ', roomsList[occ].numUsers + 1);
+							dispatch(
+								updateRoomData({
+									name: room,
+									roomId,
+									numUsers: roomsList[occ].numUsers + 1,
+								})
+							);
+						}}
+						className='ui button primary'
+					>
+						Join Room
+					</button>
 				</Link>
 				<Link
 					onClick={(event) => (!name || !room ? event.preventDefault() : null)}

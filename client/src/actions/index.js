@@ -19,6 +19,12 @@ import {
 	CREATE_PLAYER_PROFILE,
 	UPDATE_PLAYER_PROFILE,
 	PROFILES_LOADING,
+	// SET_ROOMS_LIST,
+	CREATE_NEW_ROOM,
+	UPDATE_ROOM_DATA,
+	GET_ROOMS_LIST,
+	DELETE_ROOM,
+	ROOMS_LOADING,
 } from './types';
 // import streams from '../apis/api';
 import history from '../history';
@@ -178,6 +184,51 @@ export const updatePlayerProfile = (profile) => (dispatch) => {
 		})
 	);
 };
+
+export const createRoomList = ({ room, roomId }) => (dispatch) => {
+	base.post('/api/rooms', { name: room, roomId, numUsers: 1 }).then((res) => {
+		dispatch({
+			type: CREATE_NEW_ROOM,
+			payload: res.data,
+		});
+	});
+};
+export const updateRoomData = (room) => (dispatch) => {
+	// base.put(`/api/rooms/${room._id}`, room).then((res) =>
+	base.put(`/api/rooms/${room.roomId}`, room).then((res) =>
+		dispatch({
+			type: UPDATE_ROOM_DATA,
+			payload: res.data,
+		})
+	);
+};
+export const getRoomsList = () => (dispatch) => {
+	dispatch(setRoomsLoading());
+	base.get(`/api/rooms/`).then((res) => {
+		console.log('res.data: ', res.data);
+		dispatch({
+			type: GET_ROOMS_LIST,
+			payload: res.data,
+		});
+	});
+};
+
+export const deleteRoom = (id) => async (dispatch) => {
+	await base.delete(`/api/rooms/${id}`);
+	dispatch({ type: DELETE_ROOM, payload: id });
+	// history.push('/');
+};
+export const setRoomsLoading = () => {
+	return {
+		type: ROOMS_LOADING,
+	};
+};
+// export const setRoomsList = (roomList) => {
+// 	return {
+// 		type: SET_ROOMS_LIST,
+// 		payload: roomList,
+// 	};
+// };
 // export const createStream = (formValues) => async (dispatch, getState) => {
 //   const { userId } = getState().auth;
 //   const response = await streams.post('/streams', { ...formValues, userId });

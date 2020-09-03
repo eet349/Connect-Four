@@ -30,14 +30,18 @@ const router = require('./routes/router');
 app.use(router);
 const profilesRouter = require('./routes/profiles');
 app.use('/api/profiles/', profilesRouter);
+const roomsRouter = require('./routes/rooms');
+app.use('/api/rooms/', roomsRouter);
 // socket io
 const io = socketio(server, { wsEngine: 'ws' });
+
 const {
 	addUser,
 	removeUser,
 	getUser,
 	getUsersInRoom,
 	getNextPlayer,
+	getRoomsList,
 } = require('./users.js');
 
 io.on('connection', (socket) => {
@@ -66,6 +70,7 @@ io.on('connection', (socket) => {
 			users: getUsersInRoom(user.room),
 			roomOccupancy: getUsersInRoom(user.room).length,
 			currentPlayer: getUsersInRoom(user.room)[0],
+			roomsList: getRoomsList(),
 		});
 		callback();
 	});

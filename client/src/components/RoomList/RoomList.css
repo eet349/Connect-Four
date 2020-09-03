@@ -1,0 +1,6 @@
+.room-list {
+	padding-left: 0;
+}
+.room-list-element:nth-child(odd) {
+	background-color: #ffffff;
+}

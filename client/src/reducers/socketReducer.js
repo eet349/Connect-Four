@@ -1,11 +1,14 @@
 import {
-	// JOIN_ROOM,
-	// LEAVE_ROOM,
 	SET_ROOM,
 	SET_USERS,
 	SET_CURRENT_PLAYER,
 	SET_USERNAME,
 	SET_FIRSTPLAYER_NAME,
+	UPDATE_ROOM_DATA,
+	CREATE_NEW_ROOM,
+	GET_ROOMS_LIST,
+	DELETE_ROOM,
+	ROOMS_LOADING,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -14,6 +17,8 @@ const INITIAL_STATE = {
 	users: [],
 	firstPlayer: '',
 	currentPlayer: '',
+	roomsList: [],
+	roomsLoading: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -22,16 +27,34 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, userName: action.payload };
 		case SET_FIRSTPLAYER_NAME:
 			return { ...state, firstPlayer: action.payload };
-		// case JOIN_ROOM:
-		// 	return { ...state };
-		// case LEAVE_ROOM:
-		// 	return { ...state };
 		case SET_ROOM:
 			return { ...state, userRoom: action.payload };
 		case SET_USERS:
 			return { ...state, users: action.payload };
 		case SET_CURRENT_PLAYER:
 			return { ...state, currentPlayer: action.payload };
+		case CREATE_NEW_ROOM:
+			return { ...state, roomsList: [...state.roomsList, action.payload] };
+		case GET_ROOMS_LIST:
+			return {
+				...state,
+				roomsList: action.payload,
+				roomsLoading: false,
+			};
+		case UPDATE_ROOM_DATA:
+			return {
+				...state,
+				roomsList: action.payload,
+				roomsLoading: false,
+			};
+		case DELETE_ROOM:
+			return {
+				...state,
+				roomsList: state.roomList.filter((room) => room._id !== action.payload),
+			};
+		case ROOMS_LOADING:
+			return { ...state, roomsLoading: true };
+
 		default:
 			return state;
 	}
