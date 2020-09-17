@@ -14,18 +14,18 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB/Mongoose
-// DB config
+//// DB config
 const db = require('./config/keys').mongoURI;
 
-// Connect to Mongodb
+//// Connect to Mongodb
 mongoose
-	.connect(db)
+	.connect(db, { useFindAndModify: true })
 	.then(() => console.log('connected to mongodb...'))
 	.catch((err) => console.log(err));
 
 // Use routes
 
-// router
+//// router
 const router = require('./routes/router');
 app.use(router);
 const profilesRouter = require('./routes/profiles');
@@ -45,11 +45,12 @@ const {
 } = require('./users.js');
 
 io.on('connection', (socket) => {
-	socket.on('join', ({ name, room }, callback) => {
+	socket.on('join', ({ name, room, game }, callback) => {
 		const { error, user } = addUser({
 			id: socket.id,
 			name: name,
 			room: room,
+			game: game,
 		});
 		if (error) {
 			return callback(error);

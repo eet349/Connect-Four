@@ -2,32 +2,39 @@
 	border: none;
 	width: 100%;
 	display: grid;
-	/* text-align: left; */
 	justify-content: stretch;
-	/* align-items: center; */
 	cursor: pointer;
 	outline: 0;
-	/* vertical-align: baseline; */
 	font-weight: 700;
 	font: 400 13.3333px Arial;
 	height: 25px;
 	margin-bottom: 3px;
+	/* text-align: left; */
+	/* align-items: center; */
+	/* vertical-align: baseline; */
+	display: inline-block;
 }
 .room-button:hover {
 	background-color: #cffff8;
 }
 .room-button-name {
 	text-align: left;
-	/* width: 50%; */
+	float: left;
 	margin: 0;
-	/* display: block; */
+	width: 200px;
 }
 .room-num-users {
 	text-align: right;
-	/* width: 50%; */
-	margin: 0;
+	float: right;
 
+	margin: 0;
+	/* display: inline-block; */
+
+	width: 200px;
 	/* display: block; */
+}
+.room-button:focus {
+	background-color: rgb(91, 91, 221);
 }
 /* .room-button:nth-child(odd) {
 	background-color: #ffffff;

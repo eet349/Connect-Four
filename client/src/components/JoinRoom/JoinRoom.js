@@ -45,13 +45,11 @@ const JoinRoom = (props) => {
 		return (
 			<React.Fragment>
 				<button
+					type='submit'
 					onClick={() => {
 						if (name && room) {
 							const roomsListNames = roomsList.map((roomName) => roomName.name);
 							if (roomsListNames.indexOf(room) === -1) {
-								var newRoom = { room, roomId };
-								dispatch(createRoomList(newRoom));
-								// dispatch(createRoomList(room));
 								history.push(
 									`gameroom/?name=${name}&room=${room}&game=${game}`
 								);
@@ -82,6 +80,7 @@ const JoinRoom = (props) => {
 		return (
 			<React.Fragment>
 				<input
+					autoFocus
 					placeholder='Enter name'
 					type='text'
 					className='form-input'
@@ -89,10 +88,29 @@ const JoinRoom = (props) => {
 					value={name}
 				/>
 				<input
+					autoFocus
 					placeholder='Enter room name'
 					type='text'
 					className='form-input'
 					onChange={(event) => setRoom(event.target.value)}
+					onKeyPress={(e) => {
+						if (e.key === 'Enter') {
+							if (name && room) {
+								const roomsListNames = roomsList.map(
+									(roomName) => roomName.name
+								);
+								if (roomsListNames.indexOf(room) === -1) {
+									history.push(
+										`gameroom/?name=${name}&room=${room}&game=${game}`
+									);
+								}
+							} else {
+								console.log(
+									'Room name taken. Please choose a new name of join an available room.'
+								);
+							}
+						}
+					}}
 				/>
 			</React.Fragment>
 		);
@@ -123,6 +141,7 @@ const JoinRoom = (props) => {
 							roomsList={roomsList}
 							setRoomName={setRoomName}
 							name={name}
+							game={game}
 						/>
 					</div>
 					<form className='form'>
@@ -149,16 +168,8 @@ const JoinRoom = (props) => {
 						onClick={() => {
 							const roomNamesTemp = roomsList.map((room) => room.name);
 							const occ = roomNamesTemp.indexOf(room);
-							// setOccupancy(roomsList[occ].numUsers);
-							console.log('occ: ', occ);
-							console.log('numUsers +1: ', roomsList[occ].numUsers + 1);
-							dispatch(
-								updateRoomData({
-									name: room,
-									roomId,
-									numUsers: roomsList[occ].numUsers + 1,
-								})
-							);
+							// console.log('occ: ', occ);
+							// console.log('numUsers +1: ', roomsList[occ].numUsers + 1);
 						}}
 						className='ui button primary'
 					>

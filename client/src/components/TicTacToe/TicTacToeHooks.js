@@ -35,6 +35,8 @@ const TicTacToe = (props) => {
 		(state) => state.tictactoe.currentPlayerName
 	);
 	const winningPlayer = useSelector((state) => state.tictactoe.winningPlayer);
+	const users = useSelector((state) => state.socket.users);
+	// const [modalOpen, setModalOpen] = useState(false)
 	const [localBoardState, setLocalBoardState] = useState([
 		0,
 		0,
@@ -52,7 +54,7 @@ const TicTacToe = (props) => {
 		dispatch(setRoom(room));
 		props.socket.emit(
 			'join',
-			{ name: name.trim().toLowerCase(), room },
+			{ name: name.trim().toLowerCase(), room, game: 'tic-tac-toe' },
 			(error) => {
 				if (error) {
 					alert(error);
@@ -60,7 +62,7 @@ const TicTacToe = (props) => {
 			}
 		);
 		props.socket.on('roomData', (userData) => {
-			const roomOccupancy = userData.roomOccupancy;
+			// const roomOccupancy = userData.roomOccupancy;
 			dispatch(setRoom(userData.room));
 			dispatch(setUsers(userData.users));
 			dispatch(setCurrentPlayer(userData.currentPlayer));
@@ -256,8 +258,10 @@ const TicTacToe = (props) => {
 					className={`${classText}box ${ticOrTac}`}
 					onClick={() => {
 						currentPlayerName === userName
-							? handleClick(index)
-							: console.log('Not of your turn ', currentPlayerName, userName);
+							? users.length > 1
+								? handleClick(index)
+								: alert('Please wait until a second player has joined the room')
+							: alert('Not of your turn ', currentPlayerName, userName);
 					}}
 				></div>
 			);
@@ -277,16 +281,18 @@ const TicTacToe = (props) => {
 				>
 					New Game
 				</button>
-				{/* <Link to={"/"} className="ui button">Cancel</Link> */}
 			</React.Fragment>
 		);
 	};
 	const renderContent = () => {
 		var winnerText;
+		console.log('users: ', users);
 		if (winningPlayer === 0) {
 			winnerText = 'Draw!';
 		} else if (winningPlayer === 1 || winningPlayer === -1) {
-			winnerText = `Winner is Player ${winningPlayer === 1 ? 'One' : 'Two'}`;
+			winnerText = `Winner is Player ${
+				winningPlayer === 1 ? users[0].name : users[1].name
+			}`;
 		}
 		if (!canPlay) {
 			return (

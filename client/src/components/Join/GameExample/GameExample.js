@@ -3,8 +3,45 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import history from '../../../history';
 import './GameExample.css';
+// import '../../../Recources/gifs/';
+import connectFourGif from '../../../Recources/gifs/connect-four-animated.gif';
+import ticTacToeGif from '../../../Recources/gifs/Tic-tac-toe-animated.gif';
 
 class GameExample extends React.Component {
+	renderGameDemo(game) {
+		if (game === 'connect-four') {
+			return (
+				<div>
+					<img
+						// src='../../../Recources/icons/cross.png'
+						src={connectFourGif}
+						// src='../../../Recources/gifs/connect-four-animated.gif'
+
+						width='120'
+						height='100'
+						alt='Game demo'
+						name='connect four demo'
+					/>
+				</div>
+			);
+		} else if (game === 'tic-tac-toe') {
+			return (
+				<div>
+					<img
+						// src='../../../Recources/icons/cross.png'
+						src={ticTacToeGif}
+						// src='../../../Recources/gifs/connect-four-animated.gif'
+
+						width='100'
+						height='100'
+						alt='Game demo'
+						name='connect four demo'
+					/>
+				</div>
+			);
+		}
+	}
+
 	renderGameExample() {
 		return (
 			<React.Fragment>
@@ -21,7 +58,9 @@ class GameExample extends React.Component {
 						</button>
 					</div>
 					<div>
-						<div className='GameExample-bottom'>Bottom Part</div>
+						<div className='GameExample-bottom'>
+							{this.renderGameDemo(this.props.game)}
+						</div>
 					</div>
 				</div>
 			</React.Fragment>

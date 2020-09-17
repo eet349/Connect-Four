@@ -36,6 +36,7 @@ const GameBoardHooks = (props) => {
 	const userName = useSelector((state) => state.socket.userName);
 	const lastPlayedArr = useSelector((state) => state.connectFour.lastPlayed);
 	const firstPlayerName = useSelector((state) => state.socket.firstPlayer);
+	const usersList = useSelector((state) => state.socket.users);
 	// const socketRoom = useSelector((state) => state.socket.userRoom);
 
 	useEffect(() => {
@@ -48,7 +49,7 @@ const GameBoardHooks = (props) => {
 		if (!switchGame) {
 			props.socket.emit(
 				'join',
-				{ name: name.trim().toLowerCase(), room },
+				{ name: name.trim().toLowerCase(), room, game },
 				(error) => {
 					if (error) {
 						alert(error);
@@ -57,9 +58,9 @@ const GameBoardHooks = (props) => {
 			);
 		}
 		props.socket.on('roomData', (userData) => {
-			const roomOccupancy = userData.roomOccupancy;
-			dispatch(setUsers(userData.users));
+			// const roomOccupancy = userData.roomOccupancy;
 			dispatch(setRoom(userData.room));
+			dispatch(setUsers(userData.users));
 			dispatch(setCurrentPlayer(userData.currentPlayer));
 			dispatch(setFirstplayerName(userData.users[0].name));
 			// dispatch(setRoomsList(userData.roomsList));
@@ -231,8 +232,12 @@ const GameBoardHooks = (props) => {
 						key={`${(i, j)}`}
 						onClick={() =>
 							currentPlayerName === userName
-								? onPlayerClick(i, j)
-								: console.log('not your turn', currentPlayerName, userName)
+								? usersList.length > 1
+									? onPlayerClick(i, j)
+									: alert(
+											'The game will begin when a second player has joined the room.'
+									  )
+								: alert('not your turn', currentPlayerName, userName)
 						}
 					>
 						<div className={`${chipColor} Chip ${lastPlayed}`}></div>
@@ -262,9 +267,17 @@ const GameBoardHooks = (props) => {
 	};
 
 	const renderContent = () => {
-		const winnerText =
-			'Winner is Player ' + (winningPlayer === 1 ? 'One' : 'Two');
+		console.log('usersList: ', usersList);
+		var winnerText;
+
 		if (!canPlay) {
+			if (usersList.length > 0) {
+				winnerText =
+					winningPlayer === 1
+						? `Winner is Player ${usersList[0].name}`
+						: `Winner is Player ${usersList[1].name}`;
+			}
+
 			return (
 				<>
 					{renderBoard()}

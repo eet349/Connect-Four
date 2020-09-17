@@ -9,17 +9,21 @@ const Room = (props) => {
 	const name = props.name;
 	const room = props.roomName;
 	const game = props.game;
+	var selected = '';
 	// console.log('props in Room: ', props);
 	return (
 		<button
 			onClick={() => {
+				selected = 'selected';
+				console.log('selected: ', selected);
 				if (name && room) {
 					// history.push(`gameroom/?name=${name}&room=${room}&game=${game}`);
 					// console.log('room: ', room);
 					props.setRoomName(room, props.roomId);
 				}
 			}}
-			className='room-button'
+			className={`room-button ${selected}`}
+			id={selected}
 		>
 			<span className='room-button-name'>{props.roomName}</span>
 			<span className='room-num-users'>{props.numUsers}</span>

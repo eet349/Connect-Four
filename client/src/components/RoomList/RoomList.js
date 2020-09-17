@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Room from './Room/Room';
-// import { useSelector } from 'react-redux';
 import './RoomList.css';
 
 const RoomList = (props) => {
-	// console.log('props.roomsList: ', props.roomsList);
-
 	const renderRoomList = () => {
-		return props.roomsList.map((room) => {
-			// console.log('room.name: ', room.name);
+		const gameRoomsList = props.roomsList.filter(
+			(room) => room.game === props.game
+		);
+		return gameRoomsList.map((room) => {
 			return (
 				<div className='room-list-element'>
 					<Room
