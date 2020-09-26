@@ -16,11 +16,24 @@ app.use(bodyParser.json());
 // MongoDB/Mongoose
 //// DB config
 const db = require('./config/keys').mongoURI;
+const {
+	addUser,
+	removeUser,
+	getUser,
+	getUsersInRoom,
+	getNextPlayer,
+	getRoomsList,
+	clearDB,
+} = require('./users.js');
 
 //// Connect to Mongodb
 mongoose
 	.connect(db, { useFindAndModify: true })
-	.then(() => console.log('connected to mongodb...'))
+	.then(() => {
+		console.log('connected to mongodb...');
+		// console.log('clearDB(): ', clearDB());
+		clearDB();
+	})
 	.catch((err) => console.log(err));
 
 // Use routes
@@ -34,15 +47,6 @@ const roomsRouter = require('./routes/rooms');
 app.use('/api/rooms/', roomsRouter);
 // socket io
 const io = socketio(server, { wsEngine: 'ws' });
-
-const {
-	addUser,
-	removeUser,
-	getUser,
-	getUsersInRoom,
-	getNextPlayer,
-	getRoomsList,
-} = require('./users.js');
 
 io.on('connection', (socket) => {
 	socket.on('join', ({ name, room, game }, callback) => {
@@ -132,7 +136,18 @@ io.on('connection', (socket) => {
 		}
 	});
 });
+// console.log('dirname: ', __dirname);
+// console.log('path.resolve:', path.resolve('..', 'client', 'build'));
 
+// Serve static assets if in prod
+if (process.env.NODE_ENV === 'production') {
+	// Set static folder
+	app.use(express.static('../client/build'));
+}
+app.get('*', (req, res) => {
+	console.log('dirname: ', __dirname);
+	res.sendFile(path.resolve('..', 'client', 'build', 'index.html'));
+});
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
