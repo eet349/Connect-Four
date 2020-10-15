@@ -9,6 +9,7 @@ import {
 	GET_ROOMS_LIST,
 	DELETE_ROOM,
 	ROOMS_LOADING,
+	// SET_CHANGE_GAME_MODAL_OPEN,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -19,6 +20,7 @@ const INITIAL_STATE = {
 	currentPlayer: '',
 	roomsList: [],
 	roomsLoading: false,
+	// changeGameModalOpen: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -54,7 +56,8 @@ export default (state = INITIAL_STATE, action) => {
 			};
 		case ROOMS_LOADING:
 			return { ...state, roomsLoading: true };
-
+		// case SET_CHANGE_GAME_MODAL_OPEN:
+		// 	return { ...state, changeGameModalOpen: action.payload };
 		default:
 			return state;
 	}

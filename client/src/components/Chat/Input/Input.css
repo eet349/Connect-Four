@@ -28,4 +28,5 @@ select:focus {
 	/* width: 20%; */
 	width: 75px;
 	text-align: center;
+	cursor: pointer;
 }

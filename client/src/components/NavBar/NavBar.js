@@ -7,7 +7,8 @@ const NavBar = () => {
 		<div
 			className='ui secondary pointing menu'
 			style={{
-				backgroundColor: '#C5C0C0',
+				backgroundColor: '#dddddd',
+				// backgroundColor: '#C5C0C0',
 				height: '40px',
 				marginBottom: '20px',
 			}}

@@ -41,7 +41,12 @@ const PlayerNameplates = (props) => {
 		<div
 			className='ui three column grid container nameplate'
 			id='nameplate'
-			style={{ marginBottom: '25px' }}
+			style={{
+				marginBottom: '25px',
+				padding: '20px',
+				borderRadius: '10px',
+				display: 'flex',
+			}}
 		>
 			<div className='column'>
 				<div className={`nameplate ${currentPlayerBorderOne}`} id='nameplate1'>

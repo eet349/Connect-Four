@@ -27,3 +27,10 @@
 .onlineIcon {
 	margin-right: 5%;
 }
+
+.chat-hide-btn {
+	background: transparent;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}

@@ -133,8 +133,11 @@ const JoinRoom = (props) => {
 
 	const renderContent = () => {
 		return (
-			<div className='ui container'>
-				<div className='ui container'>
+			<div
+				className='ui container join-room-container'
+				style={{ backgroundColor: '#cccccc' }}
+			>
+				<div className='ui container' style={{ backgroundColor: '#cccccc' }}>
 					<h1>{game}</h1>
 					<div>
 						<RoomList
@@ -146,6 +149,7 @@ const JoinRoom = (props) => {
 					</div>
 					<form className='form'>
 						<input
+							autoFocus
 							placeholder='Enter name'
 							type='text'
 							className='form-input'

@@ -7,6 +7,7 @@ import {
 	TOGGLE_CANPLAY,
 	TOGGLE_TTT_CANPLAY,
 	RESET_BOARDSTATE,
+	RESET_TTT_BOARDSTATE,
 	SET_WINNINGPLAYER,
 	SET_ROOM,
 	SET_USERS,
@@ -19,12 +20,15 @@ import {
 	CREATE_PLAYER_PROFILE,
 	UPDATE_PLAYER_PROFILE,
 	PROFILES_LOADING,
-	// SET_ROOMS_LIST,
 	CREATE_NEW_ROOM,
 	UPDATE_ROOM_DATA,
 	GET_ROOMS_LIST,
 	DELETE_ROOM,
 	ROOMS_LOADING,
+	SET_CHANGE_GAME_MODAL_OPEN,
+	SET_PLAYER_SWITCH_APPROVAL,
+	SET_OPPONENT_SWITCH_APPROVAL,
+	// UPDATE_GAME_ROOM,
 } from './types';
 // import streams from '../apis/api';
 import history from '../history';
@@ -46,16 +50,38 @@ export const signOut = () => {
 // actions related to connect four gameboard state
 
 export const updateBoardstate = (newBoardstate) => {
-	return {
-		type: UPDATE_BOARDSTATE,
-		payload: newBoardstate,
-	};
+	if (newBoardstate.length === 7) {
+		return {
+			type: UPDATE_BOARDSTATE,
+			payload: newBoardstate,
+		};
+	} else {
+		return {
+			type: UPDATE_BOARDSTATE,
+			payload: [
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0],
+			],
+		};
+	}
 };
 export const updateTicTacBoardstate = (newBoardstate) => {
-	return {
-		type: UPDATE_TICTAC_BOARDSTATE,
-		payload: newBoardstate,
-	};
+	if (newBoardstate.length === 9) {
+		return {
+			type: UPDATE_TICTAC_BOARDSTATE,
+			payload: newBoardstate,
+		};
+	} else {
+		return {
+			type: UPDATE_TICTAC_BOARDSTATE,
+			payload: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+		};
+	}
 };
 
 export const toggleCurrentPlayer = (player) => {
@@ -101,7 +127,7 @@ export const resetBoardState = () => {
 // Actions regarding TicTacToe
 export const resetTTTBoardState = () => {
 	return {
-		type: RESET_BOARDSTATE,
+		type: RESET_TTT_BOARDSTATE,
 		payload: [0, 0, 0, 0, 0, 0, 0, 0, 0],
 	};
 };
@@ -202,6 +228,7 @@ export const updateRoomData = (room) => (dispatch) => {
 		})
 	);
 };
+
 export const getRoomsList = () => (dispatch) => {
 	dispatch(setRoomsLoading());
 	base.get(`/api/rooms/`).then((res) => {
@@ -223,41 +250,31 @@ export const setRoomsLoading = () => {
 		type: ROOMS_LOADING,
 	};
 };
-// export const setRoomsList = (roomList) => {
-// 	return {
-// 		type: SET_ROOMS_LIST,
-// 		payload: roomList,
-// 	};
+
+export const setChangeGameModalOpen = (val) => {
+	return {
+		type: SET_CHANGE_GAME_MODAL_OPEN,
+		payload: val,
+	};
+};
+
+export const setPlayerSwitchApproval = (val) => {
+	return {
+		type: SET_PLAYER_SWITCH_APPROVAL,
+		payload: val,
+	};
+};
+export const setOpponentSwitchApproval = (val) => {
+	return {
+		type: SET_OPPONENT_SWITCH_APPROVAL,
+		payload: val,
+	};
+};
+// export const updateGameRoom = (updatedRoomData) => (dispatch) => {
+// 	base.put(`/api/rooms/${updatedRoomData.game}`, updatedRoomData).then((res) =>
+// 		dispatch({
+// 			type: UPDATE_GAME_ROOM,
+// 			payload: res.data,
+// 		})
+// 	);
 // };
-// export const createStream = (formValues) => async (dispatch, getState) => {
-//   const { userId } = getState().auth;
-//   const response = await streams.post('/streams', { ...formValues, userId });
-//   dispatch({ type: CREATE_STREAM, payload: response.data });
-//   // do some programmatic navigation
-//   history.push('/');
-// };
-
-// export const fetchStreams = () => async dispatch => {
-//   const response = await streams.get('/streams');
-
-//   dispatch({ type: FETCH_STREAMS, payload: response.data });
-// };
-
-// export const fetchStream = (id) => async dispatch => {
-//   const response = await streams.get(`/streams/${id}`);
-
-//   dispatch({ type: FETCH_STREAM, payload: response.data });
-// };
-
-// export const editStream = (id, formValues) => async dispatch => {
-//   const response = await streams.patch(`/streams/${id}`, formValues);
-
-//   dispatch({ type: EDIT_STREAM, payload: response.data });
-//   history.push('/');
-// }
-
-// export const deleteStream = id => async dispatch => {
-//   await streams.delete(`/streams/${id}`);
-//   dispatch({ type: DELETE_STREAM, payload: id });
-//   history.push('/');
-// }

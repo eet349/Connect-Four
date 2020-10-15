@@ -24,10 +24,41 @@ RoomsRouter.post('/', (req, res) => {
 	newRoom.save().then((room) => res.json(room));
 });
 
-RoomsRouter.put('/:id', (req, res) => {
+// RoomsRouter.put('/:id', (req, res) => {
+// 	console.log('put request recieved');
+// 	// var conditions = { _id: req.params.id };
+// 	Room.findOne({ _id: req.params.id }, (err, foundObject) => {
+// 		if (err) {
+// 			console.log(err);
+// 			res.status(500).send();
+// 		} else {
+// 			if (!foundObject) {
+// 				res.status(404).send();
+// 			} else {
+// 				if (req.body.name) {
+// 					foundObject.name = req.body.name;
+// 				}
+// 				if (req.body.numUsers) {
+// 					foundObject.numUsers = req.body.numUsers;
+// 				}
+
+// 				foundObject.save((err, updatedObject) => {
+// 					if (err) {
+// 						console.log(err);
+// 						res.status(500).send();
+// 					} else {
+// 						res.send(updatedObject);
+// 					}
+// 				});
+// 			}
+// 		}
+// 	});
+// });
+
+RoomsRouter.put('/:roomName', (req, res) => {
 	console.log('put request recieved');
 	// var conditions = { _id: req.params.id };
-	Room.findOne({ _id: req.params.id }, (err, foundObject) => {
+	Room.findOne({ name: req.params.roomName }, (err, foundObject) => {
 		if (err) {
 			console.log(err);
 			res.status(500).send();
@@ -35,12 +66,12 @@ RoomsRouter.put('/:id', (req, res) => {
 			if (!foundObject) {
 				res.status(404).send();
 			} else {
-				if (req.body.name) {
-					foundObject.name = req.body.name;
+				if (req.body.game) {
+					foundObject.game = req.body.game;
 				}
-				if (req.body.numUsers) {
-					foundObject.numUsers = req.body.numUsers;
-				}
+				// if (req.body.numUsers) {
+				// 	foundObject.numUsers = req.body.numUsers;
+				// }
 
 				foundObject.save((err, updatedObject) => {
 					if (err) {

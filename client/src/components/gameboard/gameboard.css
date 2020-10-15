@@ -67,3 +67,20 @@
 .PlayedP2 {
 	background-color: #fde252;
 }
+
+.chat-show-btn {
+	position: relative;
+	margin-left: -13px;
+	height: 75px;
+	width: 100px;
+	color: antiquewhite;
+	border: none;
+	background-color: teal;
+	border-radius: 0 20px 20px 0;
+	outline: none;
+	cursor: pointer;
+}
+
+.chat-hidden {
+	display: none;
+}

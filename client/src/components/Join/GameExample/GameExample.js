@@ -13,10 +13,7 @@ class GameExample extends React.Component {
 			return (
 				<div>
 					<img
-						// src='../../../Recources/icons/cross.png'
 						src={connectFourGif}
-						// src='../../../Recources/gifs/connect-four-animated.gif'
-
 						width='120'
 						height='100'
 						alt='Game demo'
@@ -28,10 +25,7 @@ class GameExample extends React.Component {
 			return (
 				<div>
 					<img
-						// src='../../../Recources/icons/cross.png'
 						src={ticTacToeGif}
-						// src='../../../Recources/gifs/connect-four-animated.gif'
-
 						width='100'
 						height='100'
 						alt='Game demo'

@@ -1,17 +1,16 @@
 const Room = require('./models/room');
 
-const users = [];
+var users = [];
 var rooms = [];
 Room.find({ numUsers: { $gte: 1 } }, (err, docs) => {
 	if (err) {
 		console.log('err: ', err);
 	} else {
-		// console.log('Room.find() result: ', docs);
 		rooms = docs;
 	}
 });
-console.log('rooms: ', rooms);
-const addUser = ({ id, name, room, game }) => {
+// console.log('rooms: ', rooms);
+const addUser = ({ id, name, room, game, switchGame }) => {
 	name = name.trim().toLowerCase();
 	room = room.trim().toLowerCase();
 
@@ -19,10 +18,14 @@ const addUser = ({ id, name, room, game }) => {
 		(user) => user.room === room && user.name === name
 	);
 	if (!name || !room) return { error: 'Username and room are required' };
-	if (existingUser) {
+	if (existingUser && !switchGame) {
 		return { error: 'Username is taken.' };
 	}
-	const user = { id, name, room };
+	if (existingUser && switchGame) {
+		console.log('exixtingUser: ', existingUser);
+		removeUser(existingUser.id);
+	}
+	const user = { id, name, room, game };
 
 	users.push(user);
 	const roomUsers = users.filter((user) => {
@@ -40,15 +43,12 @@ const addUser = ({ id, name, room, game }) => {
 			console.log('err: ', err);
 		} else {
 		}
-		// console.log('doc: ', doc);
 		if (!doc) {
 			newRoom.save((err, result) => {
 				if (err) {
 					console.log('err: ', err);
 				} else {
-					// console.log('result: ', result);
 					rooms = [...rooms, result];
-					// console.log('rooms in newRooms save: ', rooms);
 				}
 			});
 		} else {
@@ -58,20 +58,17 @@ const addUser = ({ id, name, room, game }) => {
 					console.log('err: ', err);
 				} else {
 					roomId = docs[0]._id;
-					// console.log('roomId: ', roomId);
-					// console.log('users: ', users);
 					const roomUsers = users.filter((user) => user.room === room);
-					console.log('roomUsers: ', roomUsers);
 					Room.findByIdAndUpdate(
 						roomId,
 						{
 							numUsers: roomUsers.length,
 							users: roomUsers,
+							game: game,
 						},
 						(err, doc) => {
 							if (err) console.log('err: ', err);
 							else {
-								// console.log('new room stats: ', doc);
 							}
 						}
 					);
@@ -86,8 +83,10 @@ const addUser = ({ id, name, room, game }) => {
 const removeUser = (id) => {
 	const index = users.findIndex((user) => user.id === id);
 	if (users.length < 1) return { error: 'There are no users in the database.' };
+	else if (index === -1)
+		return { error: 'That index was not found in users array.' };
+
 	const roomNameToRemoveUser = users[index].room;
-	// console.log('Users[index]: ', users[index].room);
 	if (index !== -1) {
 		const removedUser = users.splice(index, 1)[0];
 		console.log('users in Remove user after splice: ', users);
@@ -99,8 +98,9 @@ const removeUser = (id) => {
 				const newUsers = users.filter(
 					(user) => user.room === roomNameToRemoveUser
 				);
-				console.log('newUsers: ', newUsers);
 				if (newUsers.length > 0) {
+					console.log('newUsers: ', newUsers);
+
 					Room.findByIdAndUpdate(
 						foundRoomId,
 						{
@@ -133,13 +133,10 @@ const getUser = (id) => users.find((user) => user.id === id);
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
 const getRoomsList = () => {
-	// rooms = Room.find({ numUsers: { $gte: 1 } });
 	Room.find({ numUsers: { $gte: 1 } }, (err, docs) => {
 		if (err) {
 			console.log('err: ', err);
 		} else {
-			// console.log('Room.find() result: ', docs);
-
 			rooms = docs;
 			if (users.length < 1) {
 				rooms.forEach((room) =>
@@ -162,6 +159,44 @@ const getNextPlayer = (value, room) => {
 	}
 };
 
+// const updateGameForUsers = (room, usersToUpdate, newGameToUdate, newId) => {
+// 	var updateGameId = 0;
+// 	var newUsersWithUpdatedGame = [];
+// 	Room.find({ name: room }, (err, docs) => {
+// 		if (err) console.log('error: ', err);
+// 		else {
+// 			updateGameId = docs[0]._id;
+// 			newUsersWithUpdatedGame = docs[0].users.map((user) => {
+// 				return { ...user, game: newGameToUdate };
+// 			});
+// 			var tempUsers = [];
+// 			usersToUpdate.forEach((usrToUp) => {
+// 				tempUsers = users.map((usr) => {
+// 					if (usr.id === usrToUp.id) {
+// 						return { ...usr, game: newGameToUdate, id: usrToUp.id };
+// 					} else {
+// 						return usr;
+// 					}
+// 				});
+// 			});
+// 			users = tempUsers;
+// 			// console.log('users array in updateGameForUsers', users);
+// 			Room.findByIdAndUpdate(
+// 				updateGameId,
+// 				{
+// 					game: newGameToUdate,
+// 					users: newUsersWithUpdatedGame,
+// 				},
+// 				(err, doc) => {
+// 					if (err) console.log('err: ', err);
+// 					else {
+// 					}
+// 				}
+// 			);
+// 		}
+// 	});
+// };
+
 const clearDB = () => {
 	return Room.deleteMany({}, () => console.log('deleted all'));
 };
@@ -174,4 +209,5 @@ module.exports = {
 	getUsersInRoom,
 	getRoomsList,
 	clearDB,
+	// updateGameForUsers,
 };

@@ -9,3 +9,20 @@
 	border-radius: 4px;
 	box-sizing: border-box;
 }
+.join-room-container {
+	border-radius: 15px;
+	padding: 20px;
+	background-color: rgb(187, 187, 187);
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+	display: block;
+	/* max-width: 100% !important; */
+}
+
+/* @media only screen and (max-width: 767px) */
+/* .join-room-container {
+	width: auto !important;
+	margin-left: 1em !important;
+	margin-right: 1em !important;
+} */

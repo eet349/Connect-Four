@@ -2,6 +2,8 @@
 	/* border: 1px none black; */
 	border-radius: 5px;
 	width: 50%;
+	min-width: 150px;
+
 	height: 75px;
 	background-color: #be2a2a;
 	color: whitesmoke;
@@ -14,6 +16,7 @@
 	border-radius: 5px;
 	width: 50%;
 	height: 75px;
+	min-width: 150px;
 	background-color: #fde252;
 	color: whitesmoke;
 	display: inline-block;

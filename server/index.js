@@ -4,14 +4,22 @@ const socketio = require('socket.io');
 const http = require('http');
 const bodyParser = require('body-parser');
 const path = require('path');
-const cors = require('cors');
-
 const app = express();
 const server = http.createServer(app);
+const cors = require('cors');
 
-app.use(cors());
 // Bodyparser Middleware
 app.use(bodyParser.json());
+// Use routes
+
+//// router
+const router = require('./routes/router');
+app.use(router);
+app.use(cors());
+const profilesRouter = require('./routes/profiles');
+app.use('/api/profiles/', profilesRouter);
+const roomsRouter = require('./routes/rooms');
+app.use('/api/rooms/', roomsRouter);
 
 // MongoDB/Mongoose
 //// DB config
@@ -31,36 +39,39 @@ mongoose
 	.connect(db, { useFindAndModify: true })
 	.then(() => {
 		console.log('connected to mongodb...');
-		// console.log('clearDB(): ', clearDB());
 		clearDB();
 	})
 	.catch((err) => console.log(err));
 
-// Use routes
-
-//// router
-const router = require('./routes/router');
-app.use(router);
-const profilesRouter = require('./routes/profiles');
-app.use('/api/profiles/', profilesRouter);
-const roomsRouter = require('./routes/rooms');
-app.use('/api/rooms/', roomsRouter);
 // socket io
 const io = socketio(server, { wsEngine: 'ws' });
 
 io.on('connection', (socket) => {
-	socket.on('join', ({ name, room, game }, callback) => {
+	socket.on('join', ({ name, room, game, switchGame = false }, callback) => {
+		console.log(
+			'Join request!',
+			'id: ',
+			socket.id,
+			'name: ',
+			name,
+			'room: ',
+			room,
+			'game: ',
+			game,
+			'switchGame: ',
+			switchGame
+		);
 		const { error, user } = addUser({
 			id: socket.id,
 			name: name,
 			room: room,
 			game: game,
+			switchGame: switchGame,
 		});
 		if (error) {
 			return callback(error);
 		}
 		socket.join(user.room);
-
 		socket.emit('message', {
 			user: 'admin',
 			text: `${user.name}, welcome to ${user.room}.`,
@@ -80,15 +91,32 @@ io.on('connection', (socket) => {
 		callback();
 	});
 
-	socket.on('sendMessage', (message, callback) => {
-		const user = getUser(socket.id);
+	socket.on('changeGameModalData', ({ changersName, userRoom, newGame }) => {
+		console.log('changeGameModalData request recieved');
+		const serverData = {
+			changersName,
+			room: userRoom,
+			newGame,
+		};
+		console.log('serverData: ', serverData);
+		io.to(userRoom).emit('serverChangeGameModalData', serverData);
+	});
 
-		io.to(user.room).emit('message', { user: user.name, text: message });
+	socket.on('sendSwitchApproval', (sentSwitchData) => {
+		console.log('approval recieved: ', sentSwitchData);
+		io.to(sentSwitchData.room).emit('serverSwitchApproval', {
+			name: sentSwitchData.name,
+		});
+	});
+
+	socket.on('sendMessage', ({ name, room, message }, callback) => {
+		io.to(room).emit('message', { user: name, text: message });
 		callback();
 	});
 
 	socket.on('playChip', ({ value, player, i, j, newState }) => {
 		const user = getUser(socket.id);
+
 		var currentPlayerServer = user.name;
 		var nextCurrentPlayerServer = getNextPlayer(value, user.room);
 		if (player === currentPlayerServer) {
@@ -104,9 +132,7 @@ io.on('connection', (socket) => {
 		}
 	});
 
-	socket.on('playTic', ({ value, player, index, newState }) => {
-		// console.log('getUser: ', getUser(socket.id), socket.id);
-		// console.log('user: ', user);
+	socket.on('playTic', ({ value, player, index, newState, room }) => {
 		const user = getUser(socket.id);
 		var currentPlayerServer = user.name;
 		var nextCurrentPlayerServer = getNextPlayer(value, user.room);
@@ -118,12 +144,14 @@ io.on('connection', (socket) => {
 				newState,
 				nextPlayer: nextCurrentPlayerServer,
 			};
+			console.log('played tic: ', playedTicObject);
 			io.to(user.room).emit('sentTic', playedTicObject);
 		}
 	});
 
 	socket.on('disconnect', () => {
 		const user = removeUser(socket.id);
+		console.log('user has left the room: ', user);
 		if (user) {
 			io.to(user.room).emit('message', {
 				user: 'admin',
@@ -136,18 +164,7 @@ io.on('connection', (socket) => {
 		}
 	});
 });
-// console.log('dirname: ', __dirname);
-// console.log('path.resolve:', path.resolve('..', 'client', 'build'));
 
-// Serve static assets if in prod
-if (process.env.NODE_ENV === 'production') {
-	// Set static folder
-	app.use(express.static('../client/build'));
-}
-app.get('*', (req, res) => {
-	console.log('dirname: ', __dirname);
-	res.sendFile(path.resolve('..', 'client', 'build', 'index.html'));
-});
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {

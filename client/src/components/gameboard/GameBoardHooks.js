@@ -5,8 +5,10 @@ import WinnerModal from '../WinnerModal';
 import queryString from 'query-string';
 import history from '../../history';
 import { useDispatch, useSelector } from 'react-redux';
+import Chat from '../Chat/Chat';
 import {
 	updateBoardstate,
+	// updateConnectFourBoardstate,
 	toggleCurrentPlayer,
 	toggleCanPlay,
 	resetBoardState,
@@ -18,14 +20,14 @@ import {
 	setLastPlayed,
 	setCurrentPlayer,
 	setCurrentPlayerName,
-	// setRoomsList,
 } from '../../actions';
 
 const GameBoardHooks = (props) => {
-	console.log('props: ', props);
+	// console.log('props: ', props);
 	const [value, setValue] = useState(null);
 	const [i, setI] = useState(null);
 	const [j, setJ] = useState(null);
+	const [hideChat, setHideChat] = useState(false);
 	const dispatch = useDispatch();
 	const boardState = useSelector((state) => state.connectFour.boardState);
 	const currentPlayerName = useSelector(
@@ -37,7 +39,6 @@ const GameBoardHooks = (props) => {
 	const lastPlayedArr = useSelector((state) => state.connectFour.lastPlayed);
 	const firstPlayerName = useSelector((state) => state.socket.firstPlayer);
 	const usersList = useSelector((state) => state.socket.users);
-	// const socketRoom = useSelector((state) => state.socket.userRoom);
 
 	useEffect(() => {
 		const { name, room, game, switchGame } = queryString.parse(
@@ -45,31 +46,31 @@ const GameBoardHooks = (props) => {
 		);
 		dispatch(setUsername(name.trim().toLowerCase()));
 		dispatch(setRoom(room));
-		// if(!switchGame)
-		if (!switchGame) {
-			props.socket.emit(
-				'join',
-				{ name: name.trim().toLowerCase(), room, game },
-				(error) => {
-					if (error) {
-						alert(error);
-					}
+
+		props.socket.emit(
+			'join',
+			{ name: name.trim().toLowerCase(), room, game, switchGame },
+			(error) => {
+				if (error) {
+					alert(error);
 				}
-			);
-		}
+			}
+		);
+
 		props.socket.on('roomData', (userData) => {
-			// const roomOccupancy = userData.roomOccupancy;
 			dispatch(setRoom(userData.room));
 			dispatch(setUsers(userData.users));
 			dispatch(setCurrentPlayer(userData.currentPlayer));
 			dispatch(setFirstplayerName(userData.users[0].name));
-			// dispatch(setRoomsList(userData.roomsList));
 
 			if (userData.users[0].name !== name.trim().toLowerCase()) {
 				dispatch(toggleCurrentPlayer(1));
 			}
 			dispatch(setCurrentPlayerName(userData.users[0].name));
 		});
+		if (switchGame) {
+			resetBoard();
+		}
 		return () => {
 			props.socket.emit('disconnect');
 			props.socket.off();
@@ -81,6 +82,7 @@ const GameBoardHooks = (props) => {
 			console.log('served.nextPlayer.name: ', served);
 			dispatch(setCurrentPlayerName(served.nextPlayer.name));
 			dispatch(setLastPlayed([served.i, served.j]));
+			// dispatch(updateConnectFourBoardstate(served.newState));
 			dispatch(updateBoardstate(served.newState));
 			setValue(served.value);
 			setI(served.i);
@@ -88,7 +90,6 @@ const GameBoardHooks = (props) => {
 		});
 		return () => {
 			props.socket.emit('disconnect');
-			// props.socket.off();
 		};
 	}, [boardState]);
 
@@ -125,16 +126,12 @@ const GameBoardHooks = (props) => {
 	const elegantCheck = (value, i, j, g, h) => {
 		const chipValue = value;
 		var total = 0;
-		// console.log('chipvalue: ', chipValue);
 		for (let x = 0; x < 4; x++) {
 			let next;
 			if (i + x * g < 7 && j + x * h < 6 && i + x * g >= 0 && j + x * h >= 0) {
 				next = boardState[i + x * g][j + x * h];
-				// console.log('boardState in elegantCheck: ', boardState);
 				if (next && next === chipValue) {
-					// console.log('total b4 adding: ', total);
 					total = total + chipValue;
-					// console.log('total after adding: ', total);
 					if (
 						(total === 3 || total === -3) &&
 						i - g >= 0 &&
@@ -261,13 +258,11 @@ const GameBoardHooks = (props) => {
 				>
 					New Game
 				</button>
-				{/* <Link to={"/"} className="ui button">Cancel</Link> */}
 			</React.Fragment>
 		);
 	};
 
 	const renderContent = () => {
-		console.log('usersList: ', usersList);
 		var winnerText;
 
 		if (!canPlay) {
@@ -292,10 +287,39 @@ const GameBoardHooks = (props) => {
 		}
 		return renderBoard();
 	};
+	const renderChat = () => {
+		return hideChat ? (
+			<div>
+				<button onClick={() => setHideChat(false)} className='chat-show-btn'>
+					Show Chat
+				</button>
+				<div className='chat-hidden'>
+					<Chat
+						socket={props.socket}
+						name={userName}
+						room={props.room}
+						game={props.game}
+						setHideChat={setHideChat}
+					/>
+				</div>
+			</div>
+		) : (
+			<div>
+				<Chat
+					socket={props.socket}
+					name={userName}
+					room={props.room}
+					game={props.game}
+					setHideChat={setHideChat}
+				/>
+			</div>
+		);
+	};
 
 	return (
 		<div id='board' className='ui grid gameBoard'>
 			{renderContent()}
+			<div>{renderChat()}</div>
 		</div>
 	);
 };

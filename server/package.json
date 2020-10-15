@@ -5,8 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon index.js",
-		"heroku-postbuild": "NPM_CONFIG_PROD=false npm install --prefix client && npm run build --client"
+		"start": "node index.js"
 	},
 	"author": "Ethan Trevino",
 	"license": "MIT",
@@ -15,8 +14,7 @@
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"mongoose": "^5.9.15",
-		"socket.io": "^2.3.0",
-		"uuid": "^8.1.0"
+		"socket.io": "^2.3.0"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.4"

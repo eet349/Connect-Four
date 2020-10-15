@@ -1,7 +1,7 @@
 .gameNavHeader {
 	width: 100%;
-	padding-left: 10px;
-	padding-top: 5px;
+	text-align: center;
+	font-size: 20px;
 }
 
 #gameNav {
@@ -37,4 +37,8 @@
 
 #gameNavLinks {
 	color: black;
+}
+
+.switch-game-modal {
+	position: sticky;
 }

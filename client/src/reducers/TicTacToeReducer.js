@@ -3,7 +3,7 @@ import {
 	TOGGLE_CURRENT_PLAYER,
 	TOGGLE_TTT_CANPLAY,
 	SET_WINNINGPLAYER,
-	RESET_BOARDSTATE,
+	RESET_TTT_BOARDSTATE,
 	SET_LASTPLAYED,
 	SET_CURRENT_PLAYER_NAME,
 } from '../actions/types';
@@ -34,7 +34,7 @@ const TicTacToeReducer = (state = INITIAL_CONNECTFOUR_STATE, action) => {
 			return { ...state, winningPlayer: action.payload };
 		case SET_LASTPLAYED:
 			return { ...state, lastPlayed: action.payload };
-		case RESET_BOARDSTATE:
+		case RESET_TTT_BOARDSTATE:
 			return {
 				...state,
 				ticTacBoardState: action.payload,
