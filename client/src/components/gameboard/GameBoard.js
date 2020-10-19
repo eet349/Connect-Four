@@ -23,8 +23,8 @@ import io from 'socket.io-client';
 
 let socket;
 // Uncomment for prod
-const DEVENDPOINT = 'https://coopgames.herokuapp.com/';
-// const DEVENDPOINT = 'localhost:5000';
+// const DEVENDPOINT = 'https://coopgames.herokuapp.com/';
+const DEVENDPOINT = 'localhost:5000';
 class GameBoard extends React.Component {
 	componentDidMount() {
 		socket = io(DEVENDPOINT);
