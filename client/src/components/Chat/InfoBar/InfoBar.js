@@ -1,5 +1,5 @@
 import React from 'react';
-
+// import { Icon } from 'semantic-ui-react';
 import './InfoBar.css';
 
 const InfoBar = ({ room, setHideChat }) => (
@@ -9,11 +9,9 @@ const InfoBar = ({ room, setHideChat }) => (
 			<h3>{room}</h3>
 		</div>
 		<div className='rightInnerContainer'>
-			{/* <a href='/'> */}
 			<button className='chat-hide-btn' onClick={() => setHideChat(true)}>
 				<img src='http://bit.ly/firstIcon' alt='close' />
 			</button>
-			{/* </a> */}
 		</div>
 	</div>
 );

@@ -5,10 +5,8 @@ import WinnerModal from '../WinnerModal';
 import queryString from 'query-string';
 import history from '../../history';
 import { useDispatch, useSelector } from 'react-redux';
-import Chat from '../Chat/Chat';
 import {
 	updateBoardstate,
-	// updateConnectFourBoardstate,
 	toggleCurrentPlayer,
 	toggleCanPlay,
 	resetBoardState,
@@ -23,11 +21,10 @@ import {
 } from '../../actions';
 
 const GameBoardHooks = (props) => {
-	// console.log('props: ', props);
 	const [value, setValue] = useState(null);
 	const [i, setI] = useState(null);
 	const [j, setJ] = useState(null);
-	const [hideChat, setHideChat] = useState(false);
+	// const [hideChat, setHideChat] = useState(false);
 	const dispatch = useDispatch();
 	const boardState = useSelector((state) => state.connectFour.boardState);
 	const currentPlayerName = useSelector(
@@ -47,16 +44,6 @@ const GameBoardHooks = (props) => {
 		dispatch(setUsername(name.trim().toLowerCase()));
 		dispatch(setRoom(room));
 
-		props.socket.emit(
-			'join',
-			{ name: name.trim().toLowerCase(), room, game, switchGame },
-			(error) => {
-				if (error) {
-					alert(error);
-				}
-			}
-		);
-
 		props.socket.on('roomData', (userData) => {
 			dispatch(setRoom(userData.room));
 			dispatch(setUsers(userData.users));
@@ -72,7 +59,6 @@ const GameBoardHooks = (props) => {
 			resetBoard();
 		}
 		return () => {
-			props.socket.emit('disconnect');
 			props.socket.off();
 		};
 	}, [props.location.search]);
@@ -82,15 +68,12 @@ const GameBoardHooks = (props) => {
 			console.log('served.nextPlayer.name: ', served);
 			dispatch(setCurrentPlayerName(served.nextPlayer.name));
 			dispatch(setLastPlayed([served.i, served.j]));
-			// dispatch(updateConnectFourBoardstate(served.newState));
 			dispatch(updateBoardstate(served.newState));
 			setValue(served.value);
 			setI(served.i);
 			setJ(served.j);
 		});
-		return () => {
-			props.socket.emit('disconnect');
-		};
+		return () => {};
 	}, [boardState]);
 
 	useEffect(() => {
@@ -287,39 +270,10 @@ const GameBoardHooks = (props) => {
 		}
 		return renderBoard();
 	};
-	const renderChat = () => {
-		return hideChat ? (
-			<div>
-				<button onClick={() => setHideChat(false)} className='chat-show-btn'>
-					Show Chat
-				</button>
-				<div className='chat-hidden'>
-					<Chat
-						socket={props.socket}
-						name={userName}
-						room={props.room}
-						game={props.game}
-						setHideChat={setHideChat}
-					/>
-				</div>
-			</div>
-		) : (
-			<div>
-				<Chat
-					socket={props.socket}
-					name={userName}
-					room={props.room}
-					game={props.game}
-					setHideChat={setHideChat}
-				/>
-			</div>
-		);
-	};
 
 	return (
 		<div id='board' className='ui grid gameBoard'>
 			{renderContent()}
-			<div>{renderChat()}</div>
 		</div>
 	);
 };

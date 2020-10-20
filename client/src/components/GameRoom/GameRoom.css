@@ -12,3 +12,17 @@
 .game-room-container {
 	border-radius: 10px;
 }
+
+.hide-chat {
+	display: none;
+}
+.show-chat {
+	display: block;
+}
+
+.show-minimized-chat {
+}
+
+.hide-minimized-chat {
+	display: none;
+}
