@@ -22,7 +22,7 @@ const addUser = ({ id, name, room, game, switchGame }) => {
 		return { error: 'Username is taken.' };
 	}
 	if (existingUser && switchGame) {
-		console.log('exixtingUser: ', existingUser);
+		console.log('exixtingUser: found && switchGame: true');
 		removeUser(existingUser.id);
 	}
 	const user = { id, name, room, game };
@@ -89,7 +89,7 @@ const removeUser = (id) => {
 	const roomNameToRemoveUser = users[index].room;
 	if (index !== -1) {
 		const removedUser = users.splice(index, 1)[0];
-		console.log('users in Remove user after splice: ', users);
+		// console.log('users in Remove user after splice: ', users);
 		Room.find({ name: roomNameToRemoveUser }, (err, docs) => {
 			if (err) console.log('err: ', err);
 			else {
@@ -99,7 +99,7 @@ const removeUser = (id) => {
 					(user) => user.room === roomNameToRemoveUser
 				);
 				if (newUsers.length > 0) {
-					console.log('newUsers: ', newUsers);
+					// console.log('newUsers: ', newUsers);
 
 					Room.findByIdAndUpdate(
 						foundRoomId,
@@ -110,7 +110,7 @@ const removeUser = (id) => {
 						(err, doc) => {
 							if (err) console.log('err: ', err);
 							else {
-								console.log('new room stats: ', doc);
+								// console.log('new room stats: ', doc);
 							}
 						}
 					);
@@ -159,44 +159,6 @@ const getNextPlayer = (value, room) => {
 	}
 };
 
-// const updateGameForUsers = (room, usersToUpdate, newGameToUdate, newId) => {
-// 	var updateGameId = 0;
-// 	var newUsersWithUpdatedGame = [];
-// 	Room.find({ name: room }, (err, docs) => {
-// 		if (err) console.log('error: ', err);
-// 		else {
-// 			updateGameId = docs[0]._id;
-// 			newUsersWithUpdatedGame = docs[0].users.map((user) => {
-// 				return { ...user, game: newGameToUdate };
-// 			});
-// 			var tempUsers = [];
-// 			usersToUpdate.forEach((usrToUp) => {
-// 				tempUsers = users.map((usr) => {
-// 					if (usr.id === usrToUp.id) {
-// 						return { ...usr, game: newGameToUdate, id: usrToUp.id };
-// 					} else {
-// 						return usr;
-// 					}
-// 				});
-// 			});
-// 			users = tempUsers;
-// 			// console.log('users array in updateGameForUsers', users);
-// 			Room.findByIdAndUpdate(
-// 				updateGameId,
-// 				{
-// 					game: newGameToUdate,
-// 					users: newUsersWithUpdatedGame,
-// 				},
-// 				(err, doc) => {
-// 					if (err) console.log('err: ', err);
-// 					else {
-// 					}
-// 				}
-// 			);
-// 		}
-// 	});
-// };
-
 const clearDB = () => {
 	return Room.deleteMany({}, () => console.log('deleted all'));
 };
@@ -209,5 +171,4 @@ module.exports = {
 	getUsersInRoom,
 	getRoomsList,
 	clearDB,
-	// updateGameForUsers,
 };

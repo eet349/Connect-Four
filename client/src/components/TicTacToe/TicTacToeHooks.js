@@ -4,11 +4,9 @@ import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import history from '../../history';
 import WinnerModal from '../WinnerModal';
-import Chat from '../Chat/Chat';
 
 import {
 	resetTTTBoardState,
-	// updateBoardstate,
 	updateTicTacBoardstate,
 	toggleCurrentPlayer,
 	toggleTTTCanPlay,
@@ -26,7 +24,7 @@ import './TicTacToe.css';
 const TicTacToe = (props) => {
 	const [index, setIndex] = useState(null);
 	const [value, setValue] = useState(null);
-	const [hideChat, setHideChat] = useState(false);
+	// const [hideChat, setHideChat] = useState(false);
 	const dispatch = useDispatch();
 	const ticTacBoardState = useSelector(
 		(state) => state.tictactoe.ticTacBoardState
@@ -40,7 +38,6 @@ const TicTacToe = (props) => {
 	const winningPlayer = useSelector((state) => state.tictactoe.winningPlayer);
 	const users = useSelector((state) => state.socket.users);
 	const userRoom = useSelector((state) => state.socket.userRoom);
-	// const [modalOpen, setModalOpen] = useState(false)
 	const [localBoardState, setLocalBoardState] = useState([
 		0,
 		0,
@@ -53,7 +50,7 @@ const TicTacToe = (props) => {
 		0,
 	]);
 	useEffect(() => {
-		const { name, room, game, switchGame, id } = queryString.parse(
+		const { name, room, game, switchGame } = queryString.parse(
 			props.location.search
 		);
 		dispatch(setUsername(name.trim().toLowerCase()));
@@ -62,22 +59,6 @@ const TicTacToe = (props) => {
 		if (switchGame) {
 			resetBoard();
 		}
-		props.socket.emit(
-			'join',
-			{
-				name: name.trim().toLowerCase(),
-				room,
-				game: 'tic-tac-toe',
-				switchGame,
-			},
-			(error) => {
-				if (error) {
-					alert(error);
-				}
-			}
-		);
-
-		console.log('props.socket', props.socket);
 
 		props.socket.on('roomData', (userData) => {
 			console.log('roomData: ', userData);
@@ -92,7 +73,6 @@ const TicTacToe = (props) => {
 			dispatch(setCurrentPlayerName(userData.users[0].name));
 		});
 		return () => {
-			props.socket.emit('disconnect');
 			props.socket.off();
 		};
 	}, [props.location.search]);
@@ -106,13 +86,7 @@ const TicTacToe = (props) => {
 			setValue(served.value);
 			setIndex(served.index); //make a setIndex
 		});
-		return () => {
-			console.log(
-				'calling disc from sentTic return statement in TicTacToeHooks',
-				props.socket
-			);
-			props.socket.emit('disconnect');
-		};
+		return () => {};
 	}, [ticTacBoardState]);
 
 	useEffect(() => {
@@ -313,7 +287,6 @@ const TicTacToe = (props) => {
 	};
 	const renderContent = () => {
 		var winnerText;
-		// console.log('users: ', users);
 		if (winningPlayer === 0) {
 			winnerText = 'Draw!';
 		} else if (winningPlayer === 1 || winningPlayer === -1) {
@@ -336,40 +309,10 @@ const TicTacToe = (props) => {
 		}
 		return renderTicTacToeBoard();
 	};
-	const renderChat = () => {
-		return hideChat ? (
-			<div>
-				<button onClick={() => setHideChat(false)} className='chat-show-btn'>
-					Show Chat
-				</button>
-				<div className='chat-hidden'>
-					<Chat
-						socket={props.socket}
-						name={userName}
-						room={props.room}
-						game={props.game}
-						setHideChat={setHideChat}
-					/>
-				</div>
-			</div>
-		) : (
-			<div>
-				<Chat
-					socket={props.socket}
-					name={userName}
-					room={props.room}
-					game={props.game}
-					setHideChat={setHideChat}
-				/>
-			</div>
-		);
-	};
 
 	return (
-		// <div className=''>
 		<>
 			<div className='boardContainer'>{renderContent()}</div>
-			<div>{renderChat()}</div>
 		</>
 	);
 };

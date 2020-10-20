@@ -68,7 +68,7 @@ const GameNav = (props) => {
 				'calling disc from gameNav useEffect return statement in gameNav comp',
 				props.socket
 			);
-			props.socket.emit('disconnect');
+			// props.socket.emit('disconnect');
 		};
 	}, [props.location.search]);
 

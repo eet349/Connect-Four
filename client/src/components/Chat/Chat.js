@@ -34,7 +34,7 @@ const Chat = (props) => {
 			setUsers(users);
 			setRoom(room);
 		});
-	}, []);
+	}, [props.socket]);
 
 	// use effect for handling room occupancy and data
 
@@ -49,13 +49,6 @@ const Chat = (props) => {
 			);
 		}
 	};
-
-	// const sendMessage = (event) => {
-	// 	event.preventDefault();
-	// 	if (message) {
-	// 		props.socket.emit('sendMessage', message, () => setMessage(''));
-	// 	}
-	// };
 
 	return (
 		<div className='outerContainer'>
