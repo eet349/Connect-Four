@@ -1,57 +1,54 @@
 #board.gameBoard {
-	/* width: 100%;
-  height: 100px; */
-	height: 602px;
-	width: 702px;
+	/* overflow: visible; */
+	height: 60%;
+	width: 70%;
+	max-width: 700px;
+	max-height: 600px;
 	display: flex;
 	flex-direction: column-reverse;
+	flex-wrap: wrap;
 	margin: 0 auto;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	border: 1px solid grey;
-}
-#chipBox.ConnectFourBox {
-	height: 100px;
-	width: 14.3%;
-	border: 1px none black;
-	/* border-style: solid;
-	border-color: black; */
-	margin: 0;
-	display: inline-block;
-	padding: 0;
 	background-color: #5ca2ed;
 
-	/* float: left; */
+	/* border: 1px solid grey; */
+}
+#chipBox.ConnectFourBox {
+	width: 14.28%;
+	height: 16.67%;
+	max-height: 100px;
+	max-width: 100px;
+	border: 1px none black;
+	margin: 0;
+	padding: 0;
+	background-color: #5ca2ed;
+	cursor: pointer;
 }
 
-/* #chipBox */
 .notLastPlayed {
 	background-color: #5ca2ed;
 }
-/* #chipBox */
 
 .Chip {
+	/* height: 75px;
+  width: 75px; */
+	width: 75%;
 	height: 75px;
-	width: 75px;
+	max-height: 75px;
+	max-width: 75px;
 	margin: 0.75em;
 	border-radius: 50%;
 	border: 1px none black;
-	/* border-style: solid;
-	border-color: black; */
 	display: flex;
 	text-align: center;
 	padding: 0 auto;
 	display: inline-block;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75) inset;
-	/* 0 0 10px 0 rgba(055, 0, 0, 0.75) inset; */
-	/* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75),
-		0 0 10px 0 rgba(055, 0, 0, 0.75) inset; */
 }
 .lastPlayed {
-	/* background-color: #00658f; */
 	background-color: #5ca2ed;
 	box-shadow: 0 0 8px 8px rgba(255, 255, 255, 1),
 		0 0 10px 0 rgba(0, 0, 0, 0.75) inset;
-	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
 .Unplayed {
@@ -60,8 +57,6 @@
 
 .PlayedP1 {
 	background-color: #be2a2a;
-	/* box-shadow: 0 0 15px 0 rgba(255, 255, 255, 0.75),
-		0 0 15px 0 rgba(255, 255, 255, 0.75); */
 }
 
 .PlayedP2 {

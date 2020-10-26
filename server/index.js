@@ -32,6 +32,7 @@ const {
 	getNextPlayer,
 	getRoomsList,
 	clearDB,
+	getUserByNameAndRoom,
 } = require('./users.js');
 
 //// Connect to Mongodb
@@ -114,8 +115,13 @@ io.on('connection', (socket) => {
 		callback();
 	});
 
-	socket.on('playChip', ({ value, player, i, j, newState }) => {
-		const user = getUser(socket.id);
+	socket.on('playChip', ({ value, player, i, j, newState, room }) => {
+		// const user = getUser(socket.id);
+		var user = getUser(socket.id);
+		if (!user) user = getUserByNameAndRoom(player, room);
+		console.log('socket: ', socket.id);
+		console.log('player:', player);
+		console.log('user in playChip: ', user);
 
 		var currentPlayerServer = user.name;
 		var nextCurrentPlayerServer = getNextPlayer(value, user.room);
@@ -133,7 +139,8 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('playTic', ({ value, player, index, newState, room }) => {
-		const user = getUser(socket.id);
+		var user = getUser(socket.id);
+		if (!user) user = getUserByNameAndRoom(player, room);
 		var currentPlayerServer = user.name;
 		var nextCurrentPlayerServer = getNextPlayer(value, user.room);
 		if (player === currentPlayerServer) {

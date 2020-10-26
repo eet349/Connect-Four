@@ -11,10 +11,8 @@ const Chat = (props) => {
 	const [name, setName] = useState('');
 	const [room, setRoom] = useState('');
 	const [message, setMessage] = useState('');
-	const [messages, setMessages] = useState([]);
 	const [users, setUsers] = useState([]);
-	// const [collapsed, setCollapsed] = useState('');
-	// var collapsed = '';
+
 	const DEVENDPOINT = 'localhost:5000';
 	// const DEVENDPOINT = 'https://coopgames.herokuapp.com/';
 
@@ -27,7 +25,7 @@ const Chat = (props) => {
 
 	useEffect(() => {
 		props.socket.on('message', (message) => {
-			setMessages((msgs) => [...msgs, message]);
+			props.setMessages((msgs) => [...msgs, message]);
 		});
 
 		props.socket.on('roomData', ({ users, room }) => {
@@ -52,10 +50,12 @@ const Chat = (props) => {
 
 	return (
 		<div className='outerContainer'>
-			<div className='container'>
+			<div className='container chat-container'>
 				<div className={`chat-collapse`}>
 					<InfoBar room={userRoom} setHideChat={props.setHideChat} />
-					<Messages messages={messages} name={name} />
+					<div className='messages'>
+						<Messages messages={props.messages} name={name} />
+					</div>
 				</div>
 				<Input
 					message={message}

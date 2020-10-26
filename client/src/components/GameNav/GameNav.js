@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './GameNav.css';
 import history from '../../history';
-import { Link } from 'react-router-dom';
 import WinnerModal from '../WinnerModal';
 import { useDispatch, useSelector } from 'react-redux';
-import queryString from 'query-string';
 
 import {
 	setChangeGameModalOpen,
@@ -63,13 +61,7 @@ const GameNav = (props) => {
 			});
 		}
 
-		return () => {
-			console.log(
-				'calling disc from gameNav useEffect return statement in gameNav comp',
-				props.socket
-			);
-			// props.socket.emit('disconnect');
-		};
+		return () => {};
 	}, [props.location.search]);
 
 	const startCountDown = () => {
@@ -170,9 +162,16 @@ const GameNav = (props) => {
 
 	const renderModalTitle = () => {
 		if (props.name === gameChangersName) {
+			if (playerSwitchApproval) {
+				return `Waiting for opponent approval. Countdown: ${countdownText}`;
+			}
 			return `Are you sure you want to change the game?  Countdown: ${countdownText}`;
-		} else
+		} else {
+			if (playerSwitchApproval) {
+				return `Waiting for opponent approval. Countdown: ${countdownText}`;
+			}
 			return `${gameChangersName} wishes to change to the game to ${selectedGame}. Countdown: ${countdownText}`;
+		}
 	};
 
 	const renderContent = () => {
