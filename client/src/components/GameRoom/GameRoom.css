@@ -1,12 +1,9 @@
 .flexContainer {
 	display: flex;
-	/* align-items: flex-end;
-  justify-content: flex-end; */
 	justify-content: space-evenly;
 	padding: 30px;
-	/* border-radius: 10px; */
 	width: 100%;
-	/* overflow: auto; */
+	transition: transform 1s;
 }
 
 .game-room-container {
@@ -15,14 +12,18 @@
 
 .hide-chat {
 	display: none;
+	transition: transform 1s;
+}
+.sticky-container {
+	display: flex;
+	flex-direction: column-reverse;
 }
 .show-chat {
 	display: block;
+	width: 350px;
+	max-width: 350px;
+	min-width: 350px;
 }
-
-.show-minimized-chat {
-}
-
 .hide-minimized-chat {
 	display: none;
 }

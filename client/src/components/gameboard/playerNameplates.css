@@ -1,54 +1,64 @@
 #nameplate1.nameplate {
-	/* border: 1px none black; */
 	border-radius: 5px;
-	width: 50%;
-	min-width: 150px;
-
+	width: 170px;
 	height: 75px;
-	background-color: #be2a2a;
-	color: whitesmoke;
+	min-width: 150px;
+	background-color: #e47676;
+	color: #a5a4a4;
 	display: inline-block;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #nameplate2.nameplate {
-	/* border: 3px none black; */
 	border-radius: 5px;
-	width: 50%;
+	width: 170px;
 	height: 75px;
 	min-width: 150px;
-	background-color: #fde252;
-	color: whitesmoke;
+	background-color: #f1e9b6;
+	color: #a5a4a4;
 	display: inline-block;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #nameplate1 > div {
 	margin: 5px 10px;
-	font-size: 16px;
 	font-weight: 500;
-	/* text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 	text-shadow: 0 0 3px rgba(0, 0, 0, 0.7), 0 0 5px rgba(0, 0, 0, 0.7);
 }
 
 #nameplate2 > div {
 	margin: 5px 10px;
-	font-size: 16px;
 	font-weight: 500;
-	/* text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
-	/* text-shadow: 0 0 3px #ff0000, 0 0 5px #0000ff; */
 	text-shadow: 0 0 3px rgba(0, 0, 0, 0.7), 0 0 5px rgba(0, 0, 0, 0.7);
 }
 .currentPlayer {
-	border: 2px solid black;
+	color: whitesmoke;
+}
+#nameplate1.currentPlayer {
+	background-color: #be2a2a;
+	color: whitesmoke;
+	width: 200px;
+	height: 90px;
+	font-size: 40px;
+	box-shadow: -2px -2px 4px 8px rgba(177, 2, 2, 0.8),
+		0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#nameplate2.currentPlayer {
+	background-color: #fde252;
+	width: 200px;
+	height: 90px;
+	font-size: 40px;
+	color: whitesmoke;
+	box-shadow: -2px -2px 4px 8px rgba(253, 226, 82, 0.897),
+		0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#nameplate1.currentPlayer > div > h2 {
+	font-size: 30px;
+}
+#nameplate2.currentPlayer > div > h2 {
+	font-size: 30px;
 }
 
 h1 {
 	text-shadow: 0 0 5px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.2);
-	/* font-size: px; */
-	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
-	/* box-shadow: 5px 10px inset; */
-	/* box-shadow: 5px 5px blue, 10px 10px red, 15px 15px green; */
-	/* box-shadow: 0 10px 8px 20px #888888; */
-	/* box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2); */
 }

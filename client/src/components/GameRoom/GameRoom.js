@@ -16,6 +16,7 @@ const DEVENDPOINT = 'localhost:5000';
 const GameRoom = (props) => {
 	const socket = io(DEVENDPOINT);
 	const [hideChat, setHideChat] = useState(false);
+	const [messages, setMessages] = useState([]);
 	const { name, room, game, switchGame } = queryString.parse(
 		props.location.search
 	);
@@ -37,7 +38,6 @@ const GameRoom = (props) => {
 		);
 		return () => {
 			socket.emit('disconnect');
-			// socket.off();
 		};
 	}, [props.location.search]);
 
@@ -86,9 +86,6 @@ const GameRoom = (props) => {
 		}
 	};
 	const renderChat = () => {
-		/* // hideChat ? <Chat className='hide-chat'>
-    & show <MinimizedChat className='show-minimized-chat'>*/
-
 		if (!hideChat) {
 			return (
 				<div className='show-chat'>
@@ -97,6 +94,8 @@ const GameRoom = (props) => {
 						name={name.trim().toLowerCase()}
 						room={room}
 						game={game}
+						messages={messages}
+						setMessages={setMessages}
 						setHideChat={handleHideChat}
 					/>
 				</div>
@@ -113,7 +112,7 @@ const GameRoom = (props) => {
 							setHideChat={handleHideChat}
 						/>
 					</div>
-					<div>
+					<div className='sticky-container'>
 						<MinimizedChat setHideChat={handleHideChat} />
 					</div>
 				</>

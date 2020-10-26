@@ -151,6 +151,7 @@ const GameBoardHooks = (props) => {
 			i: i,
 			j: j,
 			newState,
+			room: props.room,
 		});
 	};
 
