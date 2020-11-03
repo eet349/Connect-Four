@@ -47,7 +47,7 @@ const GameNav = (props) => {
 		});
 		if (!playerSwitchApproval || !opponentSwitchApproval) {
 			props.socket.on('serverSwitchApproval', (serverSwitchApproval) => {
-				console.log('serverSwitchApproval: ', serverSwitchApproval);
+				// console.log('serverSwitchApproval: ', serverSwitchApproval);
 				const userNames = users.map((user) => user.name);
 
 				const opponentNameIndex = userNames.findIndex(
