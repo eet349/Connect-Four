@@ -28,7 +28,7 @@ import {
 	SET_CHANGE_GAME_MODAL_OPEN,
 	SET_PLAYER_SWITCH_APPROVAL,
 	SET_OPPONENT_SWITCH_APPROVAL,
-	// UPDATE_GAME_ROOM,
+	SET_RPS_WINNINGPLAYER,
 } from './types';
 // import streams from '../apis/api';
 import history from '../history';
@@ -210,7 +210,7 @@ export const updatePlayerProfile = (profile) => (dispatch) => {
 		})
 	);
 };
-
+// Rooms
 export const createRoomList = ({ room, roomId }) => (dispatch) => {
 	base.post('/api/rooms', { name: room, roomId, numUsers: 1 }).then((res) => {
 		dispatch({
@@ -250,6 +250,7 @@ export const setRoomsLoading = () => {
 		type: ROOMS_LOADING,
 	};
 };
+// Game Navigation Actions
 
 export const setChangeGameModalOpen = (val) => {
 	return {
@@ -270,11 +271,10 @@ export const setOpponentSwitchApproval = (val) => {
 		payload: val,
 	};
 };
-// export const updateGameRoom = (updatedRoomData) => (dispatch) => {
-// 	base.put(`/api/rooms/${updatedRoomData.game}`, updatedRoomData).then((res) =>
-// 		dispatch({
-// 			type: UPDATE_GAME_ROOM,
-// 			payload: res.data,
-// 		})
-// 	);
-// };
+// Rock Paper Scissors
+export const setRPSWinningPlayer = (winner) => {
+	return {
+		type: SET_RPS_WINNINGPLAYER,
+		payload: winner,
+	};
+};

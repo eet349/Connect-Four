@@ -6,6 +6,7 @@ import socketReducer from './socketReducer';
 import profilesReducer from './profilesReducer';
 import TicTacToeReducer from './TicTacToeReducer';
 import gameNavReducer from './gameNavReducer';
+import RockPaperScissorsReducer from './RockPaperScissorsReducer';
 
 export default combineReducers({
 	auth: authReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
 	profiles: profilesReducer,
 	tictactoe: TicTacToeReducer,
 	gameNav: gameNavReducer,
+	rockPaperScissors: RockPaperScissorsReducer,
 });

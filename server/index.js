@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('sendSwitchApproval', (sentSwitchData) => {
-		console.log('approval recieved: ', sentSwitchData);
+		// console.log('approval recieved: ', sentSwitchData);
 		io.to(sentSwitchData.room).emit('serverSwitchApproval', {
 			name: sentSwitchData.name,
 		});
@@ -116,7 +116,6 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('playChip', ({ value, player, i, j, newState, room }) => {
-		// const user = getUser(socket.id);
 		var user = getUser(socket.id);
 		if (!user) user = getUserByNameAndRoom(player, room);
 		console.log('socket: ', socket.id);
@@ -154,6 +153,19 @@ io.on('connection', (socket) => {
 			console.log('played tic: ', playedTicObject);
 			io.to(user.room).emit('sentTic', playedTicObject);
 		}
+	});
+
+	socket.on('RPSReadyStatus', (sentReadyStatus) => {
+		console.log('sentReadyStatus: ', sentReadyStatus);
+		io.to(sentReadyStatus.userRoom).emit(
+			'serverPlayerReadyStatus',
+			sentReadyStatus
+		);
+	});
+
+	socket.on('playRPS', (playedRPS) => {
+		console.log('playedRPS: ', playedRPS);
+		io.to(playedRPS.room).emit('serverPlayedRPS', playedRPS);
 	});
 
 	socket.on('disconnect', () => {

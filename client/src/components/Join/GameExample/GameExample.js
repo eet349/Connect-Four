@@ -6,6 +6,7 @@ import './GameExample.css';
 // import '../../../Recources/gifs/';
 import connectFourGif from '../../../Recources/gifs/connect-four-animated.gif';
 import ticTacToeGif from '../../../Recources/gifs/Tic-tac-toe-animated.gif';
+import rpsGif from '../../../Recources/gifs/RPS-animated.gif';
 
 class GameExample extends React.Component {
 	renderGameDemo(game) {
@@ -26,6 +27,18 @@ class GameExample extends React.Component {
 				<div>
 					<img
 						src={ticTacToeGif}
+						width='100'
+						height='100'
+						alt='Game demo'
+						name='connect four demo'
+					/>
+				</div>
+			);
+		} else if (game === 'rock-paper-scissors') {
+			return (
+				<div>
+					<img
+						src={rpsGif}
 						width='100'
 						height='100'
 						alt='Game demo'

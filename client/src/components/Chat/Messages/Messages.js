@@ -7,10 +7,8 @@ import './Messages.css';
 
 const Messages = (props) => {
 	const userName = useSelector((state) => state.socket.userName);
-	// const room = useSelector(state.socket.userRoom);
 
 	return (
-		// <ScrollToBottom className='messages'>
 		<ScrollToBottom>
 			{props.messages
 				? props.messages.map((message, i) => (

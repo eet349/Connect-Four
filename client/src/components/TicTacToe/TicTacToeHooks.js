@@ -24,7 +24,6 @@ import './TicTacToe.css';
 const TicTacToe = (props) => {
 	const [index, setIndex] = useState(null);
 	const [value, setValue] = useState(null);
-	// const [hideChat, setHideChat] = useState(false);
 	const dispatch = useDispatch();
 	const ticTacBoardState = useSelector(
 		(state) => state.tictactoe.ticTacBoardState
