@@ -15,6 +15,8 @@ import {
 	setLastPlayed,
 	setCurrentPlayerName,
 	setWinningPlayer,
+	incTTTScore,
+	incC4Score,
 } from '../../actions';
 import './TicTacToe.css';
 
@@ -34,6 +36,7 @@ const TicTacToe = (props) => {
 	const winningPlayer = useSelector((state) => state.tictactoe.winningPlayer);
 	const users = useSelector((state) => state.socket.users);
 	const userRoom = useSelector((state) => state.socket.userRoom);
+	const scores = useSelector((state) => state.socket.scores);
 	const [localBoardState, setLocalBoardState] = useState([
 		0,
 		0,
@@ -183,6 +186,8 @@ const TicTacToe = (props) => {
 		dispatch(setWinningPlayer(val));
 		dispatch(resetTTTBoardState());
 		dispatch(toggleTTTCanPlay(false));
+		if (val === 1) dispatch(incTTTScore(users[0].name));
+		if (val === -1) dispatch(incTTTScore(users[1].name));
 	};
 
 	const resetBoard = () => {

@@ -15,6 +15,7 @@ import {
 	setUsername,
 	setLastPlayed,
 	setCurrentPlayerName,
+	incC4Score,
 } from '../../actions';
 
 const GameBoardHooks = (props) => {
@@ -50,7 +51,6 @@ const GameBoardHooks = (props) => {
 
 	useEffect(() => {
 		props.socket.on('sentChip', (served) => {
-			console.log('served.nextPlayer.name: ', served);
 			dispatch(setCurrentPlayerName(served.nextPlayer.name));
 			dispatch(setLastPlayed([served.i, served.j]));
 			dispatch(updateBoardstate(served.newState));
@@ -58,12 +58,11 @@ const GameBoardHooks = (props) => {
 			setI(served.i);
 			setJ(served.j);
 		});
-		return () => {};
-	}, [boardState]);
+	});
 
 	useEffect(() => {
 		winCheck(value, i, j);
-	});
+	}, [boardState, currentPlayerName, lastPlayedArr]);
 
 	const resetBoard = () => {
 		dispatch(resetBoardState());
@@ -123,6 +122,8 @@ const GameBoardHooks = (props) => {
 		dispatch(setWinningPlayer(winner));
 		dispatch(toggleCurrentPlayer(-1));
 		dispatch(toggleCanPlay(false));
+		if (winner === 1) dispatch(incC4Score(usersList[0].name));
+		if (winner === -1) dispatch(incC4Score(usersList[1].name));
 	};
 
 	const getActualJIndex = (arr) => {

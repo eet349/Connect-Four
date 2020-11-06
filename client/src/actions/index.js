@@ -29,6 +29,9 @@ import {
 	SET_PLAYER_SWITCH_APPROVAL,
 	SET_OPPONENT_SWITCH_APPROVAL,
 	SET_RPS_WINNINGPLAYER,
+	INCR_C4_SCORE,
+	INCR_TTT_SCORE,
+	INCR_RPS_SCORE,
 } from './types';
 // import streams from '../apis/api';
 import history from '../history';
@@ -276,5 +279,26 @@ export const setRPSWinningPlayer = (winner) => {
 	return {
 		type: SET_RPS_WINNINGPLAYER,
 		payload: winner,
+	};
+};
+
+// Score Tracker Actions
+
+export const incC4Score = (winnerPlayerName) => {
+	return {
+		type: INCR_C4_SCORE,
+		payload: winnerPlayerName,
+	};
+};
+export const incTTTScore = (winnerPlayerName) => {
+	return {
+		type: INCR_TTT_SCORE,
+		payload: winnerPlayerName,
+	};
+};
+export const incRPSScore = (winnerPlayerName) => {
+	return {
+		type: INCR_RPS_SCORE,
+		payload: winnerPlayerName,
 	};
 };

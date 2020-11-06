@@ -46,6 +46,12 @@ const GameRoom = (props) => {
 				}
 			}
 		);
+		return () => {
+			socket.emit('disconnect');
+		};
+	}, [props.location.search]);
+
+	useEffect(() => {
 		socket.on('roomData', (userData) => {
 			dispatch(setRoom(userData.room));
 			dispatch(setUsers(userData.users));
@@ -57,12 +63,7 @@ const GameRoom = (props) => {
 			}
 			dispatch(setCurrentPlayerName(userData.users[0].name));
 		});
-
-		return () => {
-			socket.emit('disconnect');
-		};
-	}, [props.location.search]);
-
+	});
 	let styles = {
 		width: '100%',
 	};
