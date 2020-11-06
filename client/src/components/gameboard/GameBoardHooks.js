@@ -13,10 +13,7 @@ import {
 	setWinningPlayer,
 	setRoom,
 	setUsername,
-	setUsers,
-	setFirstplayerName,
 	setLastPlayed,
-	setCurrentPlayer,
 	setCurrentPlayerName,
 } from '../../actions';
 
@@ -24,7 +21,6 @@ const GameBoardHooks = (props) => {
 	const [value, setValue] = useState(null);
 	const [i, setI] = useState(null);
 	const [j, setJ] = useState(null);
-	// const [hideChat, setHideChat] = useState(false);
 	const dispatch = useDispatch();
 	const boardState = useSelector((state) => state.connectFour.boardState);
 	const currentPlayerName = useSelector(
@@ -44,17 +40,6 @@ const GameBoardHooks = (props) => {
 		dispatch(setUsername(name.trim().toLowerCase()));
 		dispatch(setRoom(room));
 
-		props.socket.on('roomData', (userData) => {
-			dispatch(setRoom(userData.room));
-			dispatch(setUsers(userData.users));
-			dispatch(setCurrentPlayer(userData.currentPlayer));
-			dispatch(setFirstplayerName(userData.users[0].name));
-
-			if (userData.users[0].name !== name.trim().toLowerCase()) {
-				dispatch(toggleCurrentPlayer(1));
-			}
-			dispatch(setCurrentPlayerName(userData.users[0].name));
-		});
 		if (switchGame) {
 			resetBoard();
 		}

@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import {
-	setRPSWinningPlayer,
-	setRoom,
-	setUsers,
-	setUsername,
-} from '../../actions';
+import { setRoom, setUsername } from '../../actions';
 import queryString from 'query-string';
 
 import './RockPaperScissors.css';
@@ -81,11 +76,6 @@ const RockPaperScissors = (props) => {
 			}
 		});
 
-		props.socket.on('roomData', (userData) => {
-			console.log('roomData: ', userData);
-			dispatch(setRoom(userData.room));
-			dispatch(setUsers(userData.users));
-		});
 		return () => {
 			props.socket.off();
 		};

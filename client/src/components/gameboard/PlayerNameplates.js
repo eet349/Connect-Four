@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ScoreTracker from './ScoreTracker/ScoreTracker';
 import './playerNameplates.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -52,6 +53,7 @@ const PlayerNameplates = (props) => {
 				<div className={`nameplate ${currentPlayerBorderOne}`} id='nameplate1'>
 					<div>
 						<h2>{props.users[0] ? playerOne : null}</h2>
+						<ScoreTracker scores={0} color={'red'} />
 					</div>
 				</div>
 			</div>
@@ -60,12 +62,12 @@ const PlayerNameplates = (props) => {
 				style={{ textAlign: 'center', fontSize: '40px', fontWeight: '800' }}
 			>
 				{props.game}
-				{/* CONNECT FOUR */}
 			</h1>
 			<div className='column' style={{ textAlign: 'right' }}>
 				<div className={`nameplate ${currentPlayerBorderTwo}`} id='nameplate2'>
 					<div>
 						<h2>{props.users[1] ? playerTwo : 'Player Two'}</h2>
+						<ScoreTracker scores={0} color={'yellow'} />
 					</div>
 				</div>
 			</div>

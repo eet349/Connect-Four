@@ -18,7 +18,7 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: flex-start;
-	margin: 200px auto;
+	margin: auto;
 	/* margin-bottom: 200px; */
 }
 .box {
@@ -30,7 +30,6 @@
 }
 
 .X {
-	/* background-color: red; */
 	background-image: url('../../Recources/icons/cross.png');
 	background-repeat: no-repeat;
 	background-position: center;
@@ -38,7 +37,6 @@
 }
 
 .O {
-	/* background-color: yellow; */
 	background-image: url('../../Recources/icons/black-circle-transparent-background-1024x1024.png');
 	background-repeat: no-repeat;
 	background-position: center;

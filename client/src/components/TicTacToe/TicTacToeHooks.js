@@ -11,11 +11,8 @@ import {
 	toggleCurrentPlayer,
 	toggleTTTCanPlay,
 	setRoom,
-	setUsers,
 	setUsername,
 	setLastPlayed,
-	setCurrentPlayer,
-	setFirstplayerName,
 	setCurrentPlayerName,
 	setWinningPlayer,
 } from '../../actions';
@@ -59,18 +56,6 @@ const TicTacToe = (props) => {
 			resetBoard();
 		}
 
-		props.socket.on('roomData', (userData) => {
-			console.log('roomData: ', userData);
-			dispatch(setRoom(userData.room));
-			dispatch(setUsers(userData.users));
-			dispatch(setCurrentPlayer(userData.currentPlayer));
-			dispatch(setFirstplayerName(userData.users[0].name));
-
-			if (userData.users[0].name !== userName) {
-				dispatch(toggleCurrentPlayer(1));
-			}
-			dispatch(setCurrentPlayerName(userData.users[0].name));
-		});
 		return () => {
 			props.socket.off();
 		};
@@ -83,7 +68,7 @@ const TicTacToe = (props) => {
 			dispatch(updateTicTacBoardstate(served.newState));
 			setLocalBoardState(served.newState);
 			setValue(served.value);
-			setIndex(served.index); //make a setIndex
+			setIndex(served.index);
 		});
 		return () => {};
 	}, [ticTacBoardState]);
