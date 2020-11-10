@@ -25,7 +25,7 @@ const INITIAL_STATE = {
 	scores: [],
 };
 
-var userIndex = null;
+// var userIndex = null;
 var winningPlayer = {};
 var newScores = [];
 var scoresInit = {};
@@ -42,44 +42,28 @@ export default (state = INITIAL_STATE, action) => {
 		case SET_ROOM:
 			return { ...state, userRoom: action.payload };
 		case SET_USERS:
-			// scoresInit = action.payload.filter(user => user.name !== )
 
-			// scoresInit = action.payload.map((user) => {
-			// 	console.log('user.name: ', user.name);
-			// 	var foundIndex = state.scores.findIndex(
-			// 		(elm) => elm.name === user.name
-			// 	);
-			// 	var found = foundIndex !== -1;
+			scoresInit = action.payload.map((user, userIndex) => {
+				let tempC4Score =
+					state.scores[userIndex] && state.scores[userIndex].C4Score
+						? state.scores[userIndex].C4Score
+						: 0;
+				let tempTTTScore =
+					state.scores[userIndex] && state.scores[userIndex].TTTScore
+						? state.scores[userIndex].TTTScore
+						: 0;
+				let tempRPSScore =
+					state.scores[userIndex] && state.scores[userIndex].RPSScore
+						? state.scores[userIndex].RPSScore
+						: 0;
 
-			// 	if (!found) {
-			// 		return {
-			// 			name: user.name,
-			// 			C4Score: 0,
-			// 			TTTScore: 0,
-			// 			RPSScore: 0,
-			// 		};
-			// 	} else return null;
-			// });
-			// scoresInit = scoresInit.filter((elm) => elm !== null);
-
-			// scoresInit = [
-			// 	// ...state.scores.filter((elm) => elm !== null),
-			// 	...scoresInit.filter((elm) => elm !== null),
-			// ];
-			// if (Object.keys(state.scores).length < 1) {
-			if (state.scores.length >= 0) {
-				scoresInit = action.payload.map((user) => {
-					return {
-						name: user.name,
-						C4Score: 0,
-						TTTScore: 0,
-						RPSScore: 0,
-					};
-				});
-			} else {
-				scoresInit = state.scores;
-			}
-
+				return {
+					name: user.name,
+					C4Score: tempC4Score,
+					TTTScore: tempTTTScore,
+					RPSScore: tempRPSScore,
+				};
+			});
 			return {
 				...state,
 				users: action.payload,

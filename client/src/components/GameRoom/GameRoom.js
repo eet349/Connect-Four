@@ -127,13 +127,15 @@ const GameRoom = (props) => {
 			return (
 				<>
 					<div className='hide-chat'>
-						<Chat
-							socket={socket}
-							name={name.trim().toLowerCase()}
-							room={room}
-							game={game}
-							setHideChat={handleHideChat}
-						/>
+	        <Chat
+						socket={socket}
+						name={name.trim().toLowerCase()}
+						room={room}
+						game={game}
+						messages={messages}
+						setMessages={setMessages}
+						setHideChat={handleHideChat}
+					/>
 					</div>
 					<div className='sticky-container'>
 						<MinimizedChat setHideChat={handleHideChat} />
