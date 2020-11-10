@@ -18,9 +18,9 @@ import {
 import './GameRoom.css';
 import io from 'socket.io-client';
 import queryString from 'query-string';
-const DEVENDPOINT = 'localhost:5000';
+// const DEVENDPOINT = 'localhost:5000';
 // Uncomment for prod
-// const DEVENDPOINT = 'https://coopgames.herokuapp.com/';
+const DEVENDPOINT = 'https://coopgames.herokuapp.com/';
 
 const GameRoom = (props) => {
 	const dispatch = useDispatch();
@@ -127,15 +127,15 @@ const GameRoom = (props) => {
 			return (
 				<>
 					<div className='hide-chat'>
-	        <Chat
-						socket={socket}
-						name={name.trim().toLowerCase()}
-						room={room}
-						game={game}
-						messages={messages}
-						setMessages={setMessages}
-						setHideChat={handleHideChat}
-					/>
+						<Chat
+							socket={socket}
+							name={name.trim().toLowerCase()}
+							room={room}
+							game={game}
+							messages={messages}
+							setMessages={setMessages}
+							setHideChat={handleHideChat}
+						/>
 					</div>
 					<div className='sticky-container'>
 						<MinimizedChat setHideChat={handleHideChat} />

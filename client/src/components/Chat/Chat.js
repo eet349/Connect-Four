@@ -13,8 +13,8 @@ const Chat = (props) => {
 	const [message, setMessage] = useState('');
 	const [users, setUsers] = useState([]);
 
-	const DEVENDPOINT = 'localhost:5000';
-	// const DEVENDPOINT = 'https://coopgames.herokuapp.com/';
+	// const DEVENDPOINT = 'localhost:5000';
+	const DEVENDPOINT = 'https://coopgames.herokuapp.com/';
 
 	const userName = useSelector((state) => state.socket.userName);
 	const userRoom = useSelector((state) => state.socket.userRoom);
