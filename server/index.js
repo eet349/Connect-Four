@@ -117,7 +117,9 @@ io.on('connection', (socket) => {
 
 	socket.on('playChip', ({ value, player, i, j, newState, room }) => {
 		var user = getUser(socket.id);
-		if (!user) user = getUserByNameAndRoom(player, room);
+		if (user === undefined) {
+			user = getUserByNameAndRoom(player, room);
+		}
 		console.log('socket: ', socket.id);
 		console.log('player:', player);
 		console.log('user in playChip: ', user);

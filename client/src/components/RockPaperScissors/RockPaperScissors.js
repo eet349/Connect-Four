@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import {
-	setRPSWinningPlayer,
-	setRoom,
-	setUsers,
-	setUsername,
-} from '../../actions';
+import { setRoom, setUsername, incRPSScore } from '../../actions';
 import queryString from 'query-string';
 
 import './RockPaperScissors.css';
@@ -45,6 +40,7 @@ const RockPaperScissors = (props) => {
 		(state) => state.rockPaperScissors.winningPlayer
 	);
 	const canPlay = useSelector((state) => state.rockPaperScissors.canPlay);
+	var oppName;
 
 	useEffect(() => {
 		const { name, room, game, switchGame } = queryString.parse(
@@ -74,18 +70,14 @@ const RockPaperScissors = (props) => {
 		});
 		props.socket.on('serverPlayedRPS', (serverPlayedRPS) => {
 			console.log('serverPlayedRPS: ', serverPlayedRPS);
+
 			if (serverPlayedRPS.userName !== name) {
 				setOpponentRpsSelection(serverPlayedRPS.rpsSelection);
-
+				oppName = serverPlayedRPS.userName;
 				oppSelec = serverPlayedRPS.rpsSelection;
 			}
 		});
 
-		props.socket.on('roomData', (userData) => {
-			console.log('roomData: ', userData);
-			dispatch(setRoom(userData.room));
-			dispatch(setUsers(userData.users));
-		});
 		return () => {
 			props.socket.off();
 		};
@@ -94,7 +86,7 @@ const RockPaperScissors = (props) => {
 	const startCountdown = () => {
 		var cdtIndex = 0;
 		const intervalID = setInterval(() => {
-			console.log(RPSArray[cdtIndex], cdtIndex);
+			// console.log(RPSArray[cdtIndex], cdtIndex);
 			setCountdownText(RPSArray[cdtIndex++]);
 			if (cdtIndex === 4) {
 				setIsCountdownDone(true);
@@ -122,41 +114,43 @@ const RockPaperScissors = (props) => {
 					console.log('Draw!');
 				} else if (oppSelec === '✋') {
 					setWinner(OPP);
+					dispatch(incRPSScore(oppName));
 					console.log('You lose!');
 				} else if (oppSelec === '✌') {
 					setWinner(PLYR);
+					dispatch(incRPSScore(props.name));
 					console.log('You win!');
 				}
 			} else if (playerSelec === '✋') {
 				if (oppSelec === '✊') {
 					setWinner(PLYR);
 					console.log('You win!');
+					dispatch(incRPSScore(props.name));
 				} else if (oppSelec === '✋') {
 					setWinner(DRAW);
-
 					console.log('Draw!');
 				} else if (oppSelec === '✌') {
 					setWinner(OPP);
-
+					dispatch(incRPSScore(oppName));
 					console.log('You lose!');
 				}
 			} else if (playerSelec === '✌') {
 				if (oppSelec === '✊') {
 					setWinner(OPP);
-
+					dispatch(incRPSScore(oppName));
 					console.log('You lose!');
 				} else if (oppSelec === '✋') {
 					setWinner(PLYR);
-
+					dispatch(incRPSScore(props.name));
 					console.log('You win!');
 				} else if (oppSelec === '✌') {
 					console.log('Draw!');
 				} else if (playerSelec === '') {
 					if (oppSelec !== '') {
+						dispatch(incRPSScore(oppName));
 						console.log('You lose');
 					} else {
 						setWinner(DRAW);
-
 						console.log('Draw!');
 					}
 				}

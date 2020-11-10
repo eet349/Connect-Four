@@ -13,18 +13,15 @@ import {
 	setWinningPlayer,
 	setRoom,
 	setUsername,
-	setUsers,
-	setFirstplayerName,
 	setLastPlayed,
-	setCurrentPlayer,
 	setCurrentPlayerName,
+	incC4Score,
 } from '../../actions';
 
 const GameBoardHooks = (props) => {
 	const [value, setValue] = useState(null);
 	const [i, setI] = useState(null);
 	const [j, setJ] = useState(null);
-	// const [hideChat, setHideChat] = useState(false);
 	const dispatch = useDispatch();
 	const boardState = useSelector((state) => state.connectFour.boardState);
 	const currentPlayerName = useSelector(
@@ -44,17 +41,6 @@ const GameBoardHooks = (props) => {
 		dispatch(setUsername(name.trim().toLowerCase()));
 		dispatch(setRoom(room));
 
-		props.socket.on('roomData', (userData) => {
-			dispatch(setRoom(userData.room));
-			dispatch(setUsers(userData.users));
-			dispatch(setCurrentPlayer(userData.currentPlayer));
-			dispatch(setFirstplayerName(userData.users[0].name));
-
-			if (userData.users[0].name !== name.trim().toLowerCase()) {
-				dispatch(toggleCurrentPlayer(1));
-			}
-			dispatch(setCurrentPlayerName(userData.users[0].name));
-		});
 		if (switchGame) {
 			resetBoard();
 		}
@@ -65,7 +51,6 @@ const GameBoardHooks = (props) => {
 
 	useEffect(() => {
 		props.socket.on('sentChip', (served) => {
-			console.log('served.nextPlayer.name: ', served);
 			dispatch(setCurrentPlayerName(served.nextPlayer.name));
 			dispatch(setLastPlayed([served.i, served.j]));
 			dispatch(updateBoardstate(served.newState));
@@ -73,12 +58,11 @@ const GameBoardHooks = (props) => {
 			setI(served.i);
 			setJ(served.j);
 		});
-		return () => {};
-	}, [boardState]);
+	});
 
 	useEffect(() => {
 		winCheck(value, i, j);
-	});
+	}, [boardState, currentPlayerName, lastPlayedArr]);
 
 	const resetBoard = () => {
 		dispatch(resetBoardState());
@@ -138,6 +122,8 @@ const GameBoardHooks = (props) => {
 		dispatch(setWinningPlayer(winner));
 		dispatch(toggleCurrentPlayer(-1));
 		dispatch(toggleCanPlay(false));
+		if (winner === 1) dispatch(incC4Score(usersList[0].name));
+		if (winner === -1) dispatch(incC4Score(usersList[1].name));
 	};
 
 	const getActualJIndex = (arr) => {

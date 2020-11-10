@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ScoreTracker from './ScoreTracker/ScoreTracker';
 import './playerNameplates.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -52,6 +53,11 @@ const PlayerNameplates = (props) => {
 				<div className={`nameplate ${currentPlayerBorderOne}`} id='nameplate1'>
 					<div>
 						<h2>{props.users[0] ? playerOne : null}</h2>
+						<ScoreTracker
+							scores={props.scores[0] !== undefined ? props.scores[0] : 0}
+							game={props.game}
+							color={'red'}
+						/>
 					</div>
 				</div>
 			</div>
@@ -60,12 +66,16 @@ const PlayerNameplates = (props) => {
 				style={{ textAlign: 'center', fontSize: '40px', fontWeight: '800' }}
 			>
 				{props.game}
-				{/* CONNECT FOUR */}
 			</h1>
 			<div className='column' style={{ textAlign: 'right' }}>
 				<div className={`nameplate ${currentPlayerBorderTwo}`} id='nameplate2'>
 					<div>
 						<h2>{props.users[1] ? playerTwo : 'Player Two'}</h2>
+						<ScoreTracker
+							scores={props.scores[1] !== undefined ? props.scores[1] : 0}
+							game={props.game}
+							color={'yellow'}
+						/>
 					</div>
 				</div>
 			</div>
@@ -77,6 +87,7 @@ const mapStateToProps = (state, ownProps) => {
 		name: ownProps.match.params.name,
 		users: state.socket.users,
 		currentPlayerName: state.connectFour.currentPlayerName,
+		scores: state.socket.scores,
 	};
 };
 export default withRouter(connect(mapStateToProps, {})(PlayerNameplates));
