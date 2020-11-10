@@ -25,7 +25,7 @@ const INITIAL_STATE = {
 	scores: [],
 };
 
-// var userIndex = null;
+var userIndex = null;
 var winningPlayer = {};
 var newScores = [];
 var scoresInit = {};
@@ -42,7 +42,6 @@ export default (state = INITIAL_STATE, action) => {
 		case SET_ROOM:
 			return { ...state, userRoom: action.payload };
 		case SET_USERS:
-
 			scoresInit = action.payload.map((user, userIndex) => {
 				let tempC4Score =
 					state.scores[userIndex] && state.scores[userIndex].C4Score
